@@ -10,7 +10,7 @@ import wornhorseshoes.WornHorseshoes;
 @Config(modid = WornHorseshoes.MODID)
 public class ModConfigHandler {
 	@Config.Comment("")
-	@Config.Name("")
+	@Config.Name("test")
 	public static boolean test = false;
 
 	@Mod.EventBusSubscriber(modid = WornHorseshoes.MODID)

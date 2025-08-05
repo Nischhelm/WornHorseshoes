@@ -6,8 +6,18 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
+    "vanilla.horseshoeslot.increaseinvsize.AbstractChestHorse_IncreaseInventorySize",
+    "vanilla.horseshoeslot.increaseinvsize.AbstractHorse_IncreaseInventorySize",
+    "vanilla.horseshoeslot.AbstractHorseAccessor",
+    "vanilla.horseshoeslot.AbstractHorseMixin",
+    "vanilla.horseshoeslot.increaseinvsize.Llama_IncreaseInventorySize",
+    "vanilla.horseshoeslot.ContainerHorseInventoryMixin",
+    "vanilla.horseshoeslot.DispenseHorseshoes"
   ],
   "injectors": {
     "maxShiftBy": 10
-  }
+  },
+  "client": [
+    "vanilla.horseshoeslot.GuiScreenHorseInventoryMixin"
+  ]
 }
