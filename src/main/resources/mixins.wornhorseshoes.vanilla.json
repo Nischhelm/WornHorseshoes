@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "wornhorseshoes.mixin",
+  "refmap": "mixins.wornhorseshoes.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}
