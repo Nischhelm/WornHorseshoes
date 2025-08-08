@@ -1,6 +1,8 @@
 package wornhorseshoes.item;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,9 +13,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
-import wornhorseshoes.WornHorseshoes;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 
 public class ItemHorseArmor extends ItemArmor {
     public ItemHorseArmor(ArmorMaterial material) {
@@ -52,7 +54,15 @@ public class ItemHorseArmor extends ItemArmor {
         return entity instanceof AbstractHorse && (slot == EntityEquipmentSlot.CHEST || slot == EntityEquipmentSlot.HEAD);
     }
 
-    public void registerModel() {
-        WornHorseshoes.proxy.registerItemRenderer(this, 0);
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, @Nonnull Enchantment enchantment) {
+        if (!(stack.getItem() instanceof ItemHorseArmor)) return false; //just safety
+        //Allow armor, head and chest enchants
+        return Arrays.asList(EnumEnchantmentType.ARMOR, EnumEnchantmentType.ARMOR_CHEST, EnumEnchantmentType.ARMOR_HEAD).contains(enchantment.type);
+    }
+
+    @Override
+    public boolean isDamageable() {
+        return false;
     }
 }

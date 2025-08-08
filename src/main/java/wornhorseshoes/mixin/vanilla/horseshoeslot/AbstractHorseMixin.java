@@ -1,5 +1,7 @@
 package wornhorseshoes.mixin.vanilla.horseshoeslot;
 
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.AbstractChestHorse;
 import net.minecraft.entity.passive.AbstractHorse;
@@ -57,5 +59,11 @@ public abstract class AbstractHorseMixin extends EntityLivingBase {
             default:
                 return ItemStack.EMPTY;
         }
+    }
+
+    @Override
+    public boolean shouldDismountInWater(@Nonnull Entity rider) {
+        int depthStriderLvl = EnchantmentHelper.getDepthStriderModifier(this);
+        return depthStriderLvl <= 0;
     }
 }

@@ -53,4 +53,9 @@ public class ItemHorseshoes extends ItemArmor {
 
         return multimap;
     }
+
+    @Override
+    public boolean isDamageable() {
+        return false;
+    }
 }
