@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import wornhorseshoes.config.ModConfigHandler;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 
 @Mixin(AbstractHorse.class)
 public abstract class AbstractHorseMixin extends EntityLivingBase {
@@ -42,5 +43,13 @@ public abstract class AbstractHorseMixin extends EntityLivingBase {
             return depthStriderLvl <= 0;
         }
         return super.shouldDismountInWater(rider);
+    }
+
+    @Override
+    @Nonnull
+    //This allows protection / FF
+    public Iterable<ItemStack> getArmorInventoryList() { //TODO: this can probably be done less stupidly. idk man, horsechest would need to be removed or smth. or shadowed
+        //Using horse armor twice since it protects both head + chest
+        return Arrays.asList(this.horseChest.getStackInSlot(1), this.horseChest.getStackInSlot(1), this.horseChest.getStackInSlot(2));
     }
 }
