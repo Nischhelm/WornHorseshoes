@@ -1,10 +1,7 @@
 package wornhorseshoes.item;
 
-import com.google.common.collect.Multimap;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -17,13 +14,29 @@ import net.minecraft.world.World;
 import wornhorseshoes.WornHorseshoes;
 
 import javax.annotation.Nonnull;
-import java.util.UUID;
 
-public class ItemHorseshoes extends ItemArmor {
-    public ItemHorseshoes(ItemArmor.ArmorMaterial material) {
-        super(material, 0, EntityEquipmentSlot.FEET);
-        setRegistryName(WornHorseshoes.MODID,"horseshoes_"+material.getName());
-        this.setTranslationKey("horseshoes_"+material.getName());
+public class ItemHorseArmor extends ItemArmor {
+    public ItemHorseArmor(ArmorMaterial material) {
+        super(material, 0, EntityEquipmentSlot.CHEST);
+
+        String itemName, translationKey;
+        switch (material){
+            case IRON:
+                itemName = "iron_horse_armor";
+                translationKey = "horsearmormetal";
+                break;
+            case GOLD:
+                itemName = "golden_horse_armor";
+                translationKey = "horsearmorgold";
+                break;
+            case DIAMOND: default:
+                itemName = "diamond_horse_armor";
+                translationKey = "horsearmordiamond";
+                break;
+        }
+
+        setRegistryName("minecraft", itemName);
+        this.setTranslationKey(translationKey);
         this.setCreativeTab(CreativeTabs.MISC);
     }
 
@@ -36,21 +49,10 @@ public class ItemHorseshoes extends ItemArmor {
 
     @Override
     public boolean isValidArmor(@Nonnull ItemStack stack, @Nonnull EntityEquipmentSlot slot, @Nonnull Entity entity) {
-        return entity instanceof AbstractHorse && slot == EntityEquipmentSlot.FEET;
+        return entity instanceof AbstractHorse && (slot == EntityEquipmentSlot.CHEST || slot == EntityEquipmentSlot.HEAD);
     }
 
     public void registerModel() {
         WornHorseshoes.proxy.registerItemRenderer(this, 0);
-    }
-
-    @Override
-    @Nonnull
-    public Multimap<String, AttributeModifier> getItemAttributeModifiers(@Nonnull EntityEquipmentSlot equipmentSlot) {
-        Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
-
-        if (equipmentSlot == this.armorType)
-            multimap.put(SharedMonsterAttributes.MOVEMENT_SPEED.getName(), new AttributeModifier(UUID.nameUUIDFromBytes("wornhorseshoes_modifier".getBytes()), "Speed modifier", 0.15, 2));
-
-        return multimap;
     }
 }
