@@ -9,9 +9,9 @@ import wornhorseshoes.WornHorseshoes;
 
 @Config(modid = WornHorseshoes.MODID)
 public class ModConfigHandler {
-	@Config.Comment("")
-	@Config.Name("test")
-	public static boolean test = false;
+	@Config.Comment("If horses wear horseshoes with any depth strider lvl, riders won't get dismounted under water.")
+	@Config.Name("Depth Strider no dismount")
+	public static boolean depthStriderNoDismount = true;
 
 	@Mod.EventBusSubscriber(modid = WornHorseshoes.MODID)
 	private static class EventHandler{

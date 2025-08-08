@@ -67,12 +67,13 @@ public abstract class ContainerHorseInventoryMixin extends Container {
     @Overwrite
     @Nonnull
     public ItemStack transferStackInSlot(@Nonnull EntityPlayer playerIn, int index) {
+        ItemStack stackCopy = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
 
-        if (slot == null || !slot.getHasStack()) return ItemStack.EMPTY;
+        if (slot == null || !slot.getHasStack()) return stackCopy;
 
         ItemStack stackOrig = slot.getStack();
-        ItemStack stackCopy = stackOrig.copy();
+        stackCopy = stackOrig.copy();
 
         int horseInvSize = this.horseInventory.getSizeInventory(); //without horseshoe slot (after player inv)
         int maxSize = this.inventorySlots.size(); //last slot before horseshoe slot
@@ -80,22 +81,21 @@ public abstract class ContainerHorseInventoryMixin extends Container {
         //from horse to player
         if (index < horseInvSize) {
             if (!this.mergeItemStack(stackOrig, horseInvSize, maxSize, true)) return ItemStack.EMPTY;
-        //from player to horse
-        } else {
-            //to armor slot
-            if (this.getSlot(1).isItemValid(stackOrig) && !this.getSlot(1).getHasStack()) {
-                if (!this.mergeItemStack(stackOrig, 1, 2, false)) return ItemStack.EMPTY;
-            //to saddle slot
-            } else if (this.getSlot(0).isItemValid(stackOrig)) {
-                if (!this.mergeItemStack(stackOrig, 0, 1, false)) return ItemStack.EMPTY;
-            //to horseshoe slot
-            } else if (this.getSlot(2).isItemValid(stackOrig)) {
-                if (!this.mergeItemStack(stackOrig, 2, 3, false)) return ItemStack.EMPTY;
-            //to chest
-            } else if (horseInvSize > 3) {
-                if (!this.mergeItemStack(stackOrig, 3, horseInvSize, false)) return ItemStack.EMPTY;
-            }
         }
+
+        //from player to horse
+
+        //to armor slot
+        else if (this.getSlot(1).isItemValid(stackOrig) && !this.getSlot(1).getHasStack()) {
+            if (!this.mergeItemStack(stackOrig, 1, 2, false)) return ItemStack.EMPTY;
+        //to saddle slot
+        } else if (this.getSlot(0).isItemValid(stackOrig) && !this.getSlot(0).getHasStack()) {
+            if (!this.mergeItemStack(stackOrig, 0, 1, false)) return ItemStack.EMPTY;
+        //to horseshoe slot
+        } else if (this.getSlot(2).isItemValid(stackOrig) && !this.getSlot(2).getHasStack()) {
+            if (!this.mergeItemStack(stackOrig, 2, 3, false)) return ItemStack.EMPTY;
+            //to chest
+        } else if (horseInvSize <= 3 || !this.mergeItemStack(stackOrig, 3, horseInvSize, false)) return ItemStack.EMPTY;
 
         if (stackOrig.isEmpty()) slot.putStack(ItemStack.EMPTY);
         else slot.onSlotChanged();

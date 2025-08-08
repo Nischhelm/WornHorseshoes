@@ -48,8 +48,10 @@ public class ItemHorseshoes extends ItemArmor {
     public Multimap<String, AttributeModifier> getItemAttributeModifiers(@Nonnull EntityEquipmentSlot equipmentSlot) {
         Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
 
-        if (equipmentSlot == this.armorType)
+        if (equipmentSlot == this.armorType) {
             multimap.put(SharedMonsterAttributes.MOVEMENT_SPEED.getName(), new AttributeModifier(UUID.nameUUIDFromBytes("wornhorseshoes_modifier".getBytes()), "Speed modifier", 0.15, 2));
+            multimap.put("horse.jumpStrength", new AttributeModifier(UUID.nameUUIDFromBytes("wornhorseshoes_modifier".getBytes()), "Jump Strength modifier", 0.15, 2));
+        }
 
         return multimap;
     }
