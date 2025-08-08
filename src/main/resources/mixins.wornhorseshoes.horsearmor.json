@@ -8,6 +8,7 @@
   "mixins": [
     "vanilla.elytra.ElytraOnHorse",
     "vanilla.enchantments.AbstractHorseMixin",
+    "vanilla.enchantments.TramplingEnchantment",
     "vanilla.horsearmor.HorseArmorRegistration"
   ],
   "injectors": {

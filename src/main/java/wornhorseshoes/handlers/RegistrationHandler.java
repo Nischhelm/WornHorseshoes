@@ -1,5 +1,6 @@
 package wornhorseshoes.handlers;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -7,6 +8,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import wornhorseshoes.WornHorseshoes;
+import wornhorseshoes.enchantment.EnchantmentTrampling;
 import wornhorseshoes.item.ItemHorseshoes;
 
 @Mod.EventBusSubscriber(modid = WornHorseshoes.MODID)
@@ -22,6 +24,11 @@ public class RegistrationHandler {
                 GOLD_HORSESHOE,
                 IRON_HORSESHOE
         );
+    }
+
+    @SubscribeEvent
+    public static void onEnchantRegistration(RegistryEvent.Register<Enchantment> event){
+        event.getRegistry().register(EnchantmentTrampling.INSTANCE);
     }
 
     @SubscribeEvent
