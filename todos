@@ -10,3 +10,9 @@ enchantments
     light weight
     check double jump
     check high jump
+
+enchantable saddle
+    shared pain -> taken dmg is split, horse is healed by riding owner (who takes dmg from healing)
+    "obedience" -> can make it rear otherwise no rear -> rear with X, unrear with X
+
+packets for updating server about rearing breh

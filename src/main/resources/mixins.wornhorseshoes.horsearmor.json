@@ -9,9 +9,14 @@
     "vanilla.elytra.ElytraOnHorse",
     "vanilla.enchantments.AbstractHorseMixin",
     "vanilla.enchantments.TramplingEnchantment",
-    "vanilla.horsearmor.HorseArmorRegistration"
+    "vanilla.horsearmor.HorseArmorRegistration",
+    "vanilla.horsearmor.renderenchanted.HorseArmorAccessor",
+    "vanilla.horsearmor.renderenchanted.RemoveOriginalArmorLayer"
   ],
   "injectors": {
     "maxShiftBy": 10
-  }
+  },
+  "client": [
+    "vanilla.horsearmor.renderenchanted.RenderHorseArmor"
+  ]
 }
