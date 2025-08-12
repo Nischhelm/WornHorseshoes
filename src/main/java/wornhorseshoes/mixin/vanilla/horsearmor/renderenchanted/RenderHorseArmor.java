@@ -18,7 +18,7 @@ public abstract class RenderHorseArmor extends RenderLiving<EntityHorse> {
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void registerHorseArmorRenderer(RenderManager renderer, CallbackInfo ci){
+    private void whs_registerHorseArmorLayer(RenderManager renderer, CallbackInfo ci){
         this.addLayer(new LayerHorseArmor((RenderHorse) (Object) this));
     }
 }

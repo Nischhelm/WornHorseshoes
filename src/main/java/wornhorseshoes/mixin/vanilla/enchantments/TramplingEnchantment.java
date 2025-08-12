@@ -1,5 +1,6 @@
 package wornhorseshoes.mixin.vanilla.enchantments;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,12 +11,18 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import wornhorseshoes.enchantment.EnchantmentTrampling;
+import wornhorseshoes.network.NetworkHandler;
+import wornhorseshoes.network.ToServerSetRearingPacket;
+import wornhorseshoes.util.IRearingSetter;
 
 import javax.annotation.Nonnull;
 
 @Mixin(AbstractHorse.class)
-public abstract class TramplingEnchantment extends EntityLivingBase {
+public abstract class TramplingEnchantment extends EntityLivingBase implements IRearingSetter {
     @Shadow protected int gallopTime;
 
     public TramplingEnchantment(World worldIn) {
@@ -70,5 +77,23 @@ public abstract class TramplingEnchantment extends EntityLivingBase {
             }
         }
         super.knockBack(entityIn, strength, xRatio, zRatio);
+    }
+
+    @Unique private boolean whs$isRearing = false;
+
+    @Inject(method = "setRearing", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/AbstractHorse;setHorseWatchableBoolean(IZ)V"))
+    private void whs_sendRearingStateToServer(boolean rearing, CallbackInfo ci){
+        whs$setIsRearingNoUpdate(rearing); //Both sides should store in separate field
+        if(this.world.isRemote) NetworkHandler.sendToServer(new ToServerSetRearingPacket(this, rearing));
+    }
+
+    @Override
+    public void whs$setIsRearingNoUpdate(boolean isRearing){
+        this.whs$isRearing = isRearing;
+    }
+
+    @ModifyReturnValue(method = "isRearing", at = @At("RETURN"))
+    private boolean whs_returnCachedValue(boolean original){
+        return whs$isRearing;
     }
 }

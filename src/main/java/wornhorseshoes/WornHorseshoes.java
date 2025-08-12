@@ -2,10 +2,12 @@ package wornhorseshoes;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import wornhorseshoes.config.ModConfigProvider;
+import wornhorseshoes.network.NetworkHandler;
 import wornhorseshoes.proxy.IProxy;
 
 @Mod(modid = WornHorseshoes.MODID, version = WornHorseshoes.VERSION, name = WornHorseshoes.NAME, dependencies = "required-after:fermiumbooter")
@@ -21,5 +23,10 @@ public class WornHorseshoes {
 	@Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         ModConfigProvider.init();
+    }
+
+    @Mod.EventHandler
+    public void init(FMLInitializationEvent event) {
+        NetworkHandler.registerPackets();
     }
 }
