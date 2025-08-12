@@ -17,10 +17,10 @@ public abstract class HorseArmorRegistration {
             slice = @Slice(from = @At(value = "CONSTANT", args = "intValue=417"), to = @At(value = "CONSTANT", args = "intValue=420"))
     )
     private static void whs_overrideHorseArmorRegistration(int id, String textualID, Item itemIn, Operation<Void> original){
-        switch (id){
-            case 417: original.call(id, textualID, new ItemHorseArmor(ItemArmor.ArmorMaterial.IRON)); break;
-            case 418: original.call(id, textualID, new ItemHorseArmor(ItemArmor.ArmorMaterial.GOLD)); break;
-            case 419: original.call(id, textualID, new ItemHorseArmor(ItemArmor.ArmorMaterial.DIAMOND)); break;
+        switch (id) {
+            case 417: original.call(id, textualID, new ItemHorseArmor(textualID, "horsearmormetal", ItemArmor.ArmorMaterial.IRON)); break;
+            case 418: original.call(id, textualID, new ItemHorseArmor(textualID, "horsearmorgold", ItemArmor.ArmorMaterial.GOLD)); break;
+            case 419: original.call(id, textualID, new ItemHorseArmor(textualID, "horsearmordiamond", ItemArmor.ArmorMaterial.DIAMOND)); break;
         }
     }
 }

@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "wornhorseshoes.mixin.modcompat.bblsohmy",
+  "refmap": "mixins.wornhorseshoes.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "ModRegistryMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

@@ -1,6 +1,7 @@
 package wornhorseshoes;
 
 import fermiumbooter.FermiumRegistryAPI;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
 
@@ -14,6 +15,8 @@ public class WornHorseshoesPlugin implements IFMLLoadingPlugin {
 
 		FermiumRegistryAPI.enqueueMixin(false, "mixins.wornhorseshoes.horsearmor.json");
 		FermiumRegistryAPI.enqueueMixin(false, "mixins.wornhorseshoes.vanilla.json");
+
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.wornhorseshoes.bblsohmy.json", () -> Loader.isModLoaded("bblsom"));
 	}
 
 	@Override
