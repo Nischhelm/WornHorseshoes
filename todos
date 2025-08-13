@@ -1,23 +1,31 @@
 elytra on chest slot
     make it fly
 
-render enchantment glint on armor
-    fucking sucks, ask someone who knows about layers
-
-check horse armor stat modifiers
-
-enchantments
-    light weight
-    check double jump
-    check high jump
+enchantments check if they work and make them work
+    light weight doesnt work yet
+    high jump doesnt work yet
+    double jump
+        check why living jump event no workies smstk
 
 enchantable saddle
     shared pain -> taken dmg is split, horse is healed by riding owner (who takes dmg from healing)
-    "obedience" -> can make it rear otherwise no rear -> rear with X, unrear with X
+    "obedience" -> can make it rear otherwise no rear
 
 packets for updating server about rearing breh
     unrear that shit smh
 
 trampling enchant bigger area
+    trampling on rearing (again)
 
 recipe for horseshoes? or how to get them? trades?
+
+model + texture + layer for horseshoes
+
+make saddle its own itemsaddle class
+
+callable horses?
+
+cleanup mixins
+cleanup+make configs
+    - enchantment blacklist
+    - stats for armor type

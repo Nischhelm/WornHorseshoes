@@ -8,8 +8,12 @@ import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import wornhorseshoes.config.ModConfigHandler;
 
 import javax.annotation.Nonnull;
@@ -43,6 +47,14 @@ public abstract class AbstractHorseMixin extends EntityLivingBase {
             return depthStriderLvl <= 0;
         }
         return super.shouldDismountInWater(rider);
+    }
+
+    @Inject(
+            method = "travel",
+            at = @At(value = "FIELD", target = "Lnet/minecraft/entity/passive/AbstractHorse;jumpPower:F", ordinal = 5)
+    )
+    public void whs_fireLivingJumpEvent(float strafe, float vertical, float forward, CallbackInfo ci){
+        ForgeHooks.onLivingJump(this);
     }
 
     @Override

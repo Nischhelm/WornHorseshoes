@@ -6,6 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
+    "vanilla.horsearmor.renderenchanted.SyncSaddleStack",
     "vanilla.horseshoeslot.AbstractHorseAccessor",
     "vanilla.horseshoeslot.AbstractHorseMixin",
     "vanilla.horseshoeslot.ContainerHorseInventoryMixin",
@@ -18,6 +19,10 @@
     "maxShiftBy": 10
   },
   "client": [
+    "vanilla.horsearmor.renderenchanted.RemoveSaddleRendering",
+    "vanilla.horsearmor.renderenchanted.RenderAccessor",
+    "vanilla.horsearmor.renderenchanted.RenderHorseSaddle",
+    "vanilla.horsearmor.renderenchanted.RenderHorseSaddle_AbstractHorse",
     "vanilla.horseshoeslot.GuiScreenHorseInventoryMixin"
   ]
 }

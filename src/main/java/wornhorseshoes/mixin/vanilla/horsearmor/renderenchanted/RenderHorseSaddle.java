@@ -9,17 +9,16 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import wornhorseshoes.client.LayerHorseArmor;
+import wornhorseshoes.client.LayerHorseSaddle;
 
 @Mixin(RenderHorse.class)
-public abstract class RenderHorseArmor extends RenderLiving<EntityHorse> {
-    public RenderHorseArmor(RenderManager rendermanagerIn, ModelBase modelbaseIn, float shadowsizeIn) {
+public abstract class RenderHorseSaddle extends RenderLiving<EntityHorse> {
+    public RenderHorseSaddle(RenderManager rendermanagerIn, ModelBase modelbaseIn, float shadowsizeIn) {
         super(rendermanagerIn, modelbaseIn, shadowsizeIn);
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void whs_registerHorseArmorLayer(RenderManager renderer, CallbackInfo ci){
-        RenderHorse thisRenderHorse = (RenderHorse) (Object) this;
-        this.addLayer(new LayerHorseArmor(thisRenderHorse));
+        this.addLayer(new LayerHorseSaddle(this));
     }
 }
