@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.horsearmor.renderenchanted;
+package wornhorseshoes.mixin.vanilla.renderenchantedlayers.armor;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.entity.passive.EntityHorse;

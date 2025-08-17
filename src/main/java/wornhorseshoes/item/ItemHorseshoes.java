@@ -3,16 +3,19 @@ package wornhorseshoes.item;
 import com.google.common.collect.Multimap;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import wornhorseshoes.WornHorseshoes;
 import wornhorseshoes.config.ModConfigProvider;
@@ -68,5 +71,18 @@ public class ItemHorseshoes extends ItemArmor {
     @Override
     public boolean isDamageable() {
         return false;
+    }
+
+    public ResourceLocation getHorseshoesTexture(EntityLiving wearer, ItemStack stack) {
+        Item item = stack.getItem();
+        if(!(item instanceof ItemHorseshoes)) return new ResourceLocation("");
+        ItemHorseshoes horseshoes = (ItemHorseshoes) stack.getItem();
+        switch (horseshoes.getArmorMaterial()){
+            //TODO: cache on construction
+            case DIAMOND: return new ResourceLocation("wornhorseshoes:textures/entity/horseshoes/horseshoes_diamond.png");
+            case GOLD: return new ResourceLocation("wornhorseshoes:textures/entity/horseshoes/horseshoes_gold.png");
+            case IRON: return new ResourceLocation("wornhorseshoes:textures/entity/horseshoes/horseshoes_iron.png");
+        }
+        return new ResourceLocation("");
     }
 }

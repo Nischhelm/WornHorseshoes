@@ -1,4 +1,4 @@
-package wornhorseshoes.client;
+package wornhorseshoes.client.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -13,6 +13,7 @@ import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class ModelHorseSaddle extends ModelBase {
+    //Copied and boiled down from ModelHorse
     private final ModelRenderer head;
     private final ModelRenderer body;
 

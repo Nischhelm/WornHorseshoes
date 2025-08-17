@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiScreenHorseInventory.class)
-public abstract class GuiScreenHorseInventoryMixin extends GuiContainer {
+public abstract class DrawHorseshoesSlotInGui extends GuiContainer {
     @Unique private static final ResourceLocation HORSESHOE_GUI_TEXTURE = new ResourceLocation("wornhorseshoes:textures/gui/container/horseshoes_background.png");
 
-    public GuiScreenHorseInventoryMixin(Container inventorySlotsIn) {
+    public DrawHorseshoesSlotInGui(Container inventorySlotsIn) {
         super(inventorySlotsIn);
     }
 

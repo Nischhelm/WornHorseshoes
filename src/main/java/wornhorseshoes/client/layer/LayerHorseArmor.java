@@ -1,7 +1,7 @@
-package wornhorseshoes.client;
+package wornhorseshoes.client.layer;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderHorse;
+import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.passive.EntityHorse;
@@ -9,14 +9,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import wornhorseshoes.mixin.vanilla.horsearmor.renderenchanted.HorseArmorAccessor;
+import wornhorseshoes.client.model.ModelHorseArmor;
+import wornhorseshoes.mixin.vanilla.renderenchantedlayers.armor.HorseArmorAccessor;
 
 @SideOnly(Side.CLIENT)
 public class LayerHorseArmor implements LayerRenderer<EntityHorse> {
-    private final RenderHorse horseRenderer;
+    private final RenderLiving<EntityHorse> horseRenderer;
     private final ModelHorseArmor horseArmorModel;
 
-    public LayerHorseArmor(RenderHorse rendererIn) {
+    public LayerHorseArmor(RenderLiving<EntityHorse> rendererIn) {
         this.horseRenderer = rendererIn;
         this.horseArmorModel = new ModelHorseArmor(0.1F);
     }
@@ -35,6 +36,7 @@ public class LayerHorseArmor implements LayerRenderer<EntityHorse> {
         }
     }
 
+    //TODO: cache the ResourceLocation instead of creating it fresh every tick
     private static ResourceLocation getTextureFromStack(ItemStack stack, EntityHorse horse) {
         return new ResourceLocation(stack.getItem().getHorseArmorTexture(horse, stack));
     }

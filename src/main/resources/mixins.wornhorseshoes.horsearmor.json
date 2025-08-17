@@ -10,13 +10,13 @@
     "vanilla.enchantments.AbstractHorseMixin",
     "vanilla.enchantments.TramplingEnchantment",
     "vanilla.horsearmor.HorseArmorRegistration",
-    "vanilla.horsearmor.renderenchanted.HorseArmorAccessor",
-    "vanilla.horsearmor.renderenchanted.RemoveOriginalArmorLayer"
+    "vanilla.renderenchantedlayers.armor.HorseArmorAccessor",
+    "vanilla.renderenchantedlayers.armor.RemoveOriginalArmorLayer"
   ],
   "injectors": {
     "maxShiftBy": 10
   },
   "client": [
-    "vanilla.horsearmor.renderenchanted.RenderHorseArmor"
+    "vanilla.renderenchantedlayers.armor.RenderHorseArmor"
   ]
 }

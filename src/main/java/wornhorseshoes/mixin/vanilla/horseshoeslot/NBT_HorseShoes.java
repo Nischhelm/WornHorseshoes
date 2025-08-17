@@ -1,7 +1,6 @@
 package wornhorseshoes.mixin.vanilla.horseshoeslot;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.AbstractChestHorse;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraft.item.ItemStack;
@@ -14,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractHorse.class)
-public abstract class AbstractHorseMixin extends EntityLivingBase {
-    public AbstractHorseMixin(World worldIn) {
+public abstract class NBT_HorseShoes extends EntityLivingBase {
+    public NBT_HorseShoes(World worldIn) {
         super(worldIn);
     }
 
@@ -26,9 +25,8 @@ public abstract class AbstractHorseMixin extends EntityLivingBase {
             at = @At("TAIL")
     )
     private void whs_writeHorseshoeToNBT(NBTTagCompound compound, CallbackInfo ci){
-        if((AbstractHorse) (Object) this instanceof AbstractChestHorse) return;
-        if(this.horseChest.getStackInSlot(this.horseChest.getSizeInventory()-1).isEmpty()) return;
-        compound.setTag("WHS_Horseshoes", this.horseChest.getStackInSlot(this.horseChest.getSizeInventory()-1).writeToNBT(new NBTTagCompound()));
+        if(this.horseChest.getStackInSlot(2).isEmpty()) return;
+        compound.setTag("WHS_Horseshoes", this.horseChest.getStackInSlot(2).writeToNBT(new NBTTagCompound()));
     }
 
     @Inject(
@@ -36,10 +34,9 @@ public abstract class AbstractHorseMixin extends EntityLivingBase {
             at = @At("TAIL")
     )
     private void whs_readHorseshoeFromNBT(NBTTagCompound compound, CallbackInfo ci){
-        if((AbstractHorse) (Object) this instanceof AbstractChestHorse) return; //TODO: test
         if(!compound.hasKey("WHS_Horseshoes")) return;
 
         ItemStack itemstack = new ItemStack(compound.getCompoundTag("WHS_Horseshoes"));
-        this.horseChest.setInventorySlotContents(this.horseChest.getSizeInventory() - 1, itemstack);
+        this.horseChest.setInventorySlotContents(2, itemstack);
     }
 }

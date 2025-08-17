@@ -12,14 +12,12 @@ enchantable saddle
     "obedience" -> can make it rear otherwise no rear
 
 packets for updating server about rearing breh
-    unrear that shit smh
+    unrear that shit smh (fix bug where they stay reared)
 
 trampling enchant bigger area
     trampling on rearing (again)
 
 recipe for horseshoes? or how to get them? trades?
-
-model + texture + layer for horseshoes
 
 make saddle its own itemsaddle class
 
@@ -29,3 +27,5 @@ cleanup mixins
 cleanup+make configs
     - enchantment blacklist
     - stats for armor type
+
+allow horse armor on zombie+skellie horse

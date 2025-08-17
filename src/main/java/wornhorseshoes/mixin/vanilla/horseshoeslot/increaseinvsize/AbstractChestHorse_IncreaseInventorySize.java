@@ -14,6 +14,7 @@ public abstract class AbstractChestHorse_IncreaseInventorySize {
             method = "getInventorySize",
             at = @At("RETURN")
     )
+    //Seems stupid but if it doesn't have a chest attached, AbstractHorse is handling it
     private int whs_addHorseShoeSlot(int original){
         return original + (this.hasChest() ? 1 : 0);
     }

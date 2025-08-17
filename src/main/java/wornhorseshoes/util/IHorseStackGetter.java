@@ -2,6 +2,7 @@ package wornhorseshoes.util;
 
 import net.minecraft.item.ItemStack;
 
-public interface ISaddleGetter {
+public interface IHorseStackGetter {
     ItemStack whs$getSaddleStack();
+    ItemStack whs$getHorseshoesStack();
 }

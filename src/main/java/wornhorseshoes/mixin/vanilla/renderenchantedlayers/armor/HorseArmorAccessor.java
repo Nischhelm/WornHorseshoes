@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.horsearmor.renderenchanted;
+package wornhorseshoes.mixin.vanilla.renderenchantedlayers.armor;
 
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.item.ItemStack;

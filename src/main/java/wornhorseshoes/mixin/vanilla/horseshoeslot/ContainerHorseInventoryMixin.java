@@ -34,12 +34,12 @@ public abstract class ContainerHorseInventoryMixin extends Container {
                     ordinal = 1,
                     shift = At.Shift.AFTER,
                     unsafe = true
-            ) //sketchy af injection
+            ) //sketchy af injection but needed to be at slot index 2
     )
     private void whs_addHorseShoeSlot(IInventory playerInventory, IInventory horseInventoryIn, AbstractHorse horse, EntityPlayer player, CallbackInfo ci){
         this.addSlotToContainer(new Slot(horseInventoryIn, 2, 8, 54) {
             public boolean isItemValid(@Nonnull ItemStack stack) {
-                return stack.getItem() instanceof ItemHorseshoes; //TODO: check why vanilla goes so crazy with checking if its horsearmor breh
+                return stack.getItem() instanceof ItemHorseshoes;
             }
             public int getSlotStackLimit()
             {

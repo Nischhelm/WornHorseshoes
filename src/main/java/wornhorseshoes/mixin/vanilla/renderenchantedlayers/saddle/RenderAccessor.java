@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.horsearmor.renderenchanted;
+package wornhorseshoes.mixin.vanilla.renderenchantedlayers.saddle;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;

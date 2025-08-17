@@ -17,6 +17,7 @@ public abstract class Llama_IncreaseInventorySize extends AbstractChestHorse {
             method = "getInventorySize",
             at = @At("RETURN")
     )
+    //Seems stupid but if it doesn't have a chest attached, AbstractHorse is handling it
     private int whs_addHorseShoeSlot(int original){
         return original + (this.hasChest() ? 1 : 0);
     }
