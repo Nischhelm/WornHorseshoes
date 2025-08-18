@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "package": "wornhorseshoes.mixin",
+  "refmap": "mixins.wornhorseshoes.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "vanilla.horseshoeslot.HorseshoesSlotInContainer",
+    "vanilla.horseshoeslot.DispenseHorseshoes",
+    "vanilla.horseshoeslot.NBT_HorseShoes",
+    "vanilla.horseshoeslot.increaseinvsize.AbstractChestHorse_IncreaseInventorySize",
+    "vanilla.horseshoeslot.increaseinvsize.AbstractHorse_IncreaseInventorySize",
+    "vanilla.horseshoeslot.increaseinvsize.Llama_IncreaseInventorySize"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  },
+  "client": [
+    "vanilla.horseshoeslot.DrawHorseshoesSlotInGui"
+  ]
+}

@@ -8,12 +8,14 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import wornhorseshoes.config.ModConfigHandler;
 import wornhorseshoes.item.ItemHorseArmor;
 
 @Mod.EventBusSubscriber
 public class TooltipHandler {
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event){
+        if(!ModConfigHandler.horsearmor.registerHorseArmorItem) return;
         if(!(event.getItemStack().getItem() instanceof ItemHorseArmor)) return;
         ItemHorseArmor horseArmor = (ItemHorseArmor) event.getItemStack().getItem();
 

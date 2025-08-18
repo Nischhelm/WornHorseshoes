@@ -6,10 +6,6 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "vanilla.elytra.ElytraOnHorse",
-    "vanilla.enchantments.AbstractHorseMixin",
-    "vanilla.enchantments.TramplingEnchantment",
-    "vanilla.horsearmor.HorseArmorRegistration",
     "vanilla.renderenchantedlayers.armor.HorseArmorAccessor",
     "vanilla.renderenchantedlayers.armor.RemoveOriginalArmorLayer"
   ],

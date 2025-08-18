@@ -15,20 +15,12 @@ unrear that shit smh (fix bug where they stay reared)
 
 trampling enchant bigger area
 
-recipe for horseshoes? or how to get them? trades?
-
-cleanup mixins
-cleanup+make configs
-    - enchantment blacklist
-    - stats for armor type
-
 allow horse armor on zombie+skellie horse
-
-add trade
-
-why does str vit not work anymore
-
 
 lucky horseshoe add
 
 add stats display in horse gui for speed jump str hearts etc
+
+cleanup mixins
+cleanup+make configs
+    - stats for armor type

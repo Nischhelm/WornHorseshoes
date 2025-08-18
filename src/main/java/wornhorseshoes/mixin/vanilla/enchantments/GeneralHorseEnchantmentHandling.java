@@ -1,7 +1,5 @@
 package wornhorseshoes.mixin.vanilla.enchantments;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.inventory.ContainerHorseChest;
@@ -14,14 +12,13 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import wornhorseshoes.config.ModConfigHandler;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 
 @Mixin(AbstractHorse.class)
-public abstract class AbstractHorseMixin extends EntityLivingBase {
-    public AbstractHorseMixin(World worldIn) {
+public abstract class GeneralHorseEnchantmentHandling extends EntityLivingBase {
+    public GeneralHorseEnchantmentHandling(World worldIn) {
         super(worldIn);
     }
 
@@ -40,20 +37,12 @@ public abstract class AbstractHorseMixin extends EntityLivingBase {
         }
     }
 
-    @Override
-    public boolean shouldDismountInWater(@Nonnull Entity rider) {
-        if(ModConfigHandler.depthStriderNoDismount) {
-            int depthStriderLvl = EnchantmentHelper.getDepthStriderModifier(this);
-            return depthStriderLvl <= 0;
-        }
-        return super.shouldDismountInWater(rider);
-    }
-
     @Inject(
             method = "travel",
             at = @At(value = "FIELD", target = "Lnet/minecraft/entity/passive/AbstractHorse;jumpPower:F", ordinal = 5)
     )
     public void whs_fireLivingJumpEvent(float strafe, float vertical, float forward, CallbackInfo ci){
+        //TODO why no work
         ForgeHooks.onLivingJump(this);
     }
 

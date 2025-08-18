@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import wornhorseshoes.config.ModConfigProvider;
+import wornhorseshoes.config.ModConfigHandler;
 import wornhorseshoes.handlers.HorseshoeAcquisition;
 import wornhorseshoes.network.NetworkHandler;
 import wornhorseshoes.proxy.IProxy;
@@ -23,13 +23,14 @@ public class WornHorseshoes {
 
 	@Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        ModConfigProvider.init();
+        ModConfigHandler.preInit();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         NetworkHandler.registerPackets();
 
+        ModConfigHandler.init();
         HorseshoeAcquisition.addHorseshoeTrade();
     }
 }

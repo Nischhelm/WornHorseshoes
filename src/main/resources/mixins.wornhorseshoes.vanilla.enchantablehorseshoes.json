@@ -5,13 +5,12 @@
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
-  "mixins": [
-    "vanilla.enchantments.GeneralHorseEnchantmentHandling",
-    "vanilla.RearingFix",
-    "vanilla.horseshoeslot.AbstractHorseAccessor",
-    "vanilla.renderenchantedlayers.SyncStacks"
-  ],
   "injectors": {
     "maxShiftBy": 10
-  }
+  },
+  "client": [
+    "vanilla.renderenchantedlayers.horseshoes.RenderAbstractHorseshoes",
+    "vanilla.renderenchantedlayers.horseshoes.RenderHorseshoes",
+    "vanilla.renderenchantedlayers.horseshoes.RenderLlamaShoes"
+  ]
 }

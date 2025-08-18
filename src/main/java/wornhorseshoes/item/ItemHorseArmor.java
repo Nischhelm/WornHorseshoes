@@ -19,8 +19,11 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
+import wornhorseshoes.config.ModConfigHandler;
+import wornhorseshoes.config.folders.EnchantmentConfig;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -62,8 +65,11 @@ public class ItemHorseArmor extends ItemArmor {
     }
 
     @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, @Nonnull Enchantment enchantment) {
+    public boolean canApplyAtEnchantingTable(@Nonnull ItemStack stack, @Nonnull Enchantment enchantment) {
+        if (!ModConfigHandler.enchants.horseArmorEnchantable) return false;
         if (!(stack.getItem() instanceof ItemHorseArmor)) return false; //just safety
+        if(EnchantmentConfig.horseArmorBlacklistSet.contains(enchantment)) return false;
+
         //Allow armor, head and chest enchants
         return Arrays.asList(EnumEnchantmentType.ARMOR, EnumEnchantmentType.ARMOR_CHEST, EnumEnchantmentType.ARMOR_HEAD).contains(enchantment.type);
     }
@@ -93,5 +99,11 @@ public class ItemHorseArmor extends ItemArmor {
         }
 
         return multimap;
+    }
+
+    @Override
+    @Nullable
+    public EntityEquipmentSlot getEquipmentSlot(@Nonnull ItemStack stack) {
+        return EntityEquipmentSlot.MAINHAND; //Mainhand for zombies to pick it up but not wear it as armor (EntityLiving.updateEquipmentIfNeeded), default slot for all items
     }
 }

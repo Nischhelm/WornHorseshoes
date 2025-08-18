@@ -2,6 +2,7 @@ package wornhorseshoes.item;
 
 import com.google.common.collect.Multimap;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,10 +19,13 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import wornhorseshoes.WornHorseshoes;
-import wornhorseshoes.config.ModConfigProvider;
+import wornhorseshoes.config.ModConfigHandler;
+import wornhorseshoes.config.folders.EnchantmentConfig;
+import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.util.Pair;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class ItemHorseshoes extends ItemArmor {
@@ -58,7 +62,7 @@ public class ItemHorseshoes extends ItemArmor {
         multimap.get(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName()).clear();
 
         if (equipmentSlot == this.armorType) {
-            Pair<Double, Double> modifiers = ModConfigProvider.materialStats.get(this.getArmorMaterial().getName());
+            Pair<Double, Double> modifiers = HorseshoesConfig.materialStats.get(this.getArmorMaterial().getName());
             if(modifiers != null) {
                 multimap.put(SharedMonsterAttributes.MOVEMENT_SPEED.getName(), new AttributeModifier(UUID.nameUUIDFromBytes("wornhorseshoes_modifier".getBytes()), "Speed modifier", modifiers.getLeft(), 2));
                 multimap.put("horse.jumpStrength", new AttributeModifier(UUID.nameUUIDFromBytes("wornhorseshoes_modifier".getBytes()), "Jump Strength modifier", modifiers.getRight(), 2));
@@ -84,5 +88,20 @@ public class ItemHorseshoes extends ItemArmor {
             case IRON: return new ResourceLocation("wornhorseshoes:textures/entity/horseshoes/horseshoes_iron.png");
         }
         return new ResourceLocation("");
+    }
+
+    @Override
+    @Nullable
+    public EntityEquipmentSlot getEquipmentSlot(@Nonnull ItemStack stack) {
+        return EntityEquipmentSlot.MAINHAND; //Mainhand for zombies to pick it up but not wear it as armor (EntityLiving.updateEquipmentIfNeeded), default slot for all items
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(@Nonnull ItemStack stack, @Nonnull Enchantment enchantment) {
+        if (!ModConfigHandler.enchants.horseshoesEnchantable) return false;
+        if (!(stack.getItem() instanceof ItemHorseshoes)) return false; //just safety
+        if(EnchantmentConfig.horseshoesBlacklistSet.contains(enchantment)) return false;
+
+        return super.canApplyAtEnchantingTable(stack, enchantment);
     }
 }

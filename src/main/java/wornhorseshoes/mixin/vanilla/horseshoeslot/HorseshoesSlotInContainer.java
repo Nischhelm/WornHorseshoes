@@ -23,7 +23,7 @@ import wornhorseshoes.item.ItemHorseshoes;
 import javax.annotation.Nonnull;
 
 @Mixin(ContainerHorseInventory.class)
-public abstract class ContainerHorseInventoryMixin extends Container {
+public abstract class HorseshoesSlotInContainer extends Container {
     @Shadow @Final private IInventory horseInventory;
 
     @Inject(

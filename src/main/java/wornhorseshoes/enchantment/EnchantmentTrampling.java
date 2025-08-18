@@ -12,13 +12,17 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Unique;
 import wornhorseshoes.WornHorseshoes;
+import wornhorseshoes.config.ModConfigHandler;
+import wornhorseshoes.config.folders.EnchantmentConfig;
 import wornhorseshoes.item.ItemHorseshoes;
+
+import javax.annotation.Nonnull;
 
 public class EnchantmentTrampling extends Enchantment {
     public static EnchantmentTrampling INSTANCE = new EnchantmentTrampling();
 
     public EnchantmentTrampling() {
-        super(Rarity.VERY_RARE, EnumEnchantmentType.ARMOR_FEET, new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET});
+        super(ModConfigHandler.enchants.trampling.rarity, EnumEnchantmentType.ARMOR_FEET, new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET});
         this.setRegistryName(WornHorseshoes.MODID, "trampling");
         this.setName("trampling");
     }
@@ -35,10 +39,10 @@ public class EnchantmentTrampling extends Enchantment {
         EntityLivingBase victim = (EntityLivingBase) entityIn;
 
         double knockbackAngle = whs$getKnockbackAngle(horse, victim, tramplingLvl);
-        float knockbackStrength = horse.isRearing() ? 0.5F : 1.0F;
-        float dmgAmount = horse.isRearing() ? 1.5F : 1.0F;
-        victim.knockBack(horse, knockbackStrength * tramplingLvl, - Math.sin(knockbackAngle), - Math.cos(knockbackAngle));
-        victim.attackEntityFrom(DamageSource.causeMobDamage(horse), dmgAmount * tramplingLvl);
+        float knockbackStrength = (horse.isRearing() ? 0.5F : 1.0F) * ModConfigHandler.enchants.trampling.knockbackAmount * tramplingLvl;
+        float dmgAmount = (horse.isRearing() ? 1.5F : 1.0F) * ModConfigHandler.enchants.trampling.damage * tramplingLvl;
+        victim.knockBack(horse, knockbackStrength, - Math.sin(knockbackAngle), - Math.cos(knockbackAngle));
+        victim.attackEntityFrom(DamageSource.causeMobDamage(horse), dmgAmount);
     }
 
     @Unique
@@ -60,7 +64,23 @@ public class EnchantmentTrampling extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        return 3;
+        return ModConfigHandler.enchants.trampling.maxLvl;
+    }
+
+    @Override
+    public int getMinEnchantability(int lvl) {
+        return ModConfigHandler.enchants.trampling.enchantability[0] + ModConfigHandler.enchants.trampling.enchantability[1] * (lvl - 1);
+    }
+
+    @Override
+    public int getMaxEnchantability(int lvl) {
+        return this.getMinEnchantability(lvl) + ModConfigHandler.enchants.trampling.enchantability[2];
+    }
+
+    @Override
+    public boolean canApplyTogether(@Nonnull Enchantment other){
+        if(EnchantmentConfig.TramplingEnchantmentConfig.incompatibleEnchants.contains(other)) return false;
+        return super.canApplyTogether(other);
     }
 
     @Override
