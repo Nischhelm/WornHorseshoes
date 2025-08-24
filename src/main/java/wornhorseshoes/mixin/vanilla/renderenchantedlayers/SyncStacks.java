@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.util.IHorseStackGetter;
 
 @Mixin(AbstractHorse.class)
@@ -31,7 +32,8 @@ public abstract class SyncStacks extends Entity implements IHorseStackGetter {
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/AbstractHorse;initHorseChest()V", unsafe = true))
     private void whs_registerSaddleDataParameter(World worldIn, CallbackInfo ci){
         this.dataManager.register(SADDLE_STACK, ItemStack.EMPTY);
-        this.dataManager.register(HORSESHOE_STACK, ItemStack.EMPTY);
+        if(HorseshoesConfig.canShoeHorse((AbstractHorse) (Object) this))
+            this.dataManager.register(HORSESHOE_STACK, ItemStack.EMPTY);
     }
 
     @ModifyExpressionValue(
@@ -40,7 +42,8 @@ public abstract class SyncStacks extends Entity implements IHorseStackGetter {
     )
     private ItemStack whs_updateSaddleStack(ItemStack original){
         this.dataManager.set(SADDLE_STACK, original);
-        this.dataManager.set(HORSESHOE_STACK, this.horseChest.getStackInSlot(2));
+        if(HorseshoesConfig.canShoeHorse((AbstractHorse) (Object) this))
+            this.dataManager.set(HORSESHOE_STACK, this.horseChest.getStackInSlot(2));
         return original;
     }
 

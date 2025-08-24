@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wornhorseshoes.config.ModConfigHandler;
 import wornhorseshoes.config.folders.AcquisitionConfig;
+import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.handlers.RegistrationHandler;
 import wornhorseshoes.item.ItemHorseshoes;
 import wornhorseshoes.mixin.vanilla.horseshoeslot.AbstractHorseAccessor;
@@ -27,6 +28,7 @@ public abstract class WellEncounter extends StructureComponent {
 
     @Inject(method = "addComponentParts", at = @At("TAIL"))
     private void whs_encounterHorseshoedHorseRandomly(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn, CallbackInfoReturnable<Boolean> cir){
+        if(!HorseshoesConfig.canShoeHorse(EntityHorse.class)) return;
         if(this.whs$triedToSpawnHorse) return;
         this.whs$triedToSpawnHorse = true;
         if(randomIn.nextFloat() >= ModConfigHandler.acquisition.wellEncounterChance) return;

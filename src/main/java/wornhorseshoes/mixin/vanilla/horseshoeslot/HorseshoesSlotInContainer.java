@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.item.ItemHorseshoes;
 
 import javax.annotation.Nonnull;
@@ -25,6 +26,7 @@ import javax.annotation.Nonnull;
 @Mixin(ContainerHorseInventory.class)
 public abstract class HorseshoesSlotInContainer extends Container {
     @Shadow @Final private IInventory horseInventory;
+    @Shadow @Final private AbstractHorse horse;
 
     @Inject(
             method = "<init>",
@@ -37,19 +39,20 @@ public abstract class HorseshoesSlotInContainer extends Container {
             ) //sketchy af injection but needed to be at slot index 2
     )
     private void whs_addHorseShoeSlot(IInventory playerInventory, IInventory horseInventoryIn, AbstractHorse horse, EntityPlayer player, CallbackInfo ci){
-        this.addSlotToContainer(new Slot(horseInventoryIn, 2, 8, 54) {
-            public boolean isItemValid(@Nonnull ItemStack stack) {
-                return stack.getItem() instanceof ItemHorseshoes;
-            }
-            public int getSlotStackLimit()
-            {
-                return 1;
-            }
-            @SideOnly(Side.CLIENT)
-            public boolean isEnabled() {
-                return true; //TODO: only allow horseshoes on horses?
-            }
-        });
+        if(HorseshoesConfig.canShoeHorse(horse))
+            this.addSlotToContainer(new Slot(horseInventoryIn, 2, 8, 54) {
+                public boolean isItemValid(@Nonnull ItemStack stack) {
+                    return stack.getItem() instanceof ItemHorseshoes;
+                }
+                public int getSlotStackLimit()
+                {
+                    return 1;
+                }
+                @SideOnly(Side.CLIENT)
+                public boolean isEnabled() {
+                    return true;
+                }
+            });
     }
 
     @ModifyConstant(
@@ -57,7 +60,7 @@ public abstract class HorseshoesSlotInContainer extends Container {
             constant = @Constant(intValue = 2, ordinal = 0)
     )
     private int whs_shiftInventorySlotIndices(int constant){
-        return 3;
+        return constant + (HorseshoesConfig.canShoeHorse(this.horse) ? 1 : 0);
     }
 
     /**
@@ -78,6 +81,8 @@ public abstract class HorseshoesSlotInContainer extends Container {
         int horseInvSize = this.horseInventory.getSizeInventory(); //without horseshoe slot (after player inv)
         int maxSize = this.inventorySlots.size(); //last slot before horseshoe slot
 
+        boolean hasHorseshoesSlot = HorseshoesConfig.canShoeHorse(this.horse);
+
         //from horse to player
         if (index < horseInvSize) {
             if (!this.mergeItemStack(stackOrig, horseInvSize, maxSize, true)) return ItemStack.EMPTY;
@@ -92,10 +97,10 @@ public abstract class HorseshoesSlotInContainer extends Container {
         } else if (this.getSlot(0).isItemValid(stackOrig) && !this.getSlot(0).getHasStack()) {
             if (!this.mergeItemStack(stackOrig, 0, 1, false)) return ItemStack.EMPTY;
         //to horseshoe slot
-        } else if (this.getSlot(2).isItemValid(stackOrig) && !this.getSlot(2).getHasStack()) {
+        } else if (hasHorseshoesSlot && this.getSlot(2).isItemValid(stackOrig) && !this.getSlot(2).getHasStack()) {
             if (!this.mergeItemStack(stackOrig, 2, 3, false)) return ItemStack.EMPTY;
             //to chest
-        } else if (horseInvSize <= 3 || !this.mergeItemStack(stackOrig, 3, horseInvSize, false)) return ItemStack.EMPTY;
+        } else if (horseInvSize <= 2+(hasHorseshoesSlot?1:0) || !this.mergeItemStack(stackOrig, 2+(hasHorseshoesSlot?1:0), horseInvSize, false)) return ItemStack.EMPTY;
 
         if (stackOrig.isEmpty()) slot.putStack(ItemStack.EMPTY);
         else slot.onSlotChanged();

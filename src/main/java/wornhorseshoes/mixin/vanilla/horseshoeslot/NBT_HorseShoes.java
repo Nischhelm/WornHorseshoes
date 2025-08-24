@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import wornhorseshoes.config.folders.HorseshoesConfig;
 
 @Mixin(AbstractHorse.class)
 public abstract class NBT_HorseShoes extends EntityLivingBase {
@@ -25,6 +26,7 @@ public abstract class NBT_HorseShoes extends EntityLivingBase {
             at = @At("TAIL")
     )
     private void whs_writeHorseshoeToNBT(NBTTagCompound compound, CallbackInfo ci){
+        if(!HorseshoesConfig.canShoeHorse((AbstractHorse)(Object) this)) return;
         if(this.horseChest.getStackInSlot(2).isEmpty()) return;
         compound.setTag("WHS_Horseshoes", this.horseChest.getStackInSlot(2).writeToNBT(new NBTTagCompound()));
     }
@@ -34,6 +36,7 @@ public abstract class NBT_HorseShoes extends EntityLivingBase {
             at = @At("TAIL")
     )
     private void whs_readHorseshoeFromNBT(NBTTagCompound compound, CallbackInfo ci){
+        if(!HorseshoesConfig.canShoeHorse((AbstractHorse)(Object) this)) return;
         if(!compound.hasKey("WHS_Horseshoes")) return;
 
         ItemStack itemstack = new ItemStack(compound.getCompoundTag("WHS_Horseshoes"));

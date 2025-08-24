@@ -2,16 +2,21 @@ package wornhorseshoes.mixin.vanilla.horseshoeslot;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiScreenHorseInventory;
+import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import wornhorseshoes.config.folders.HorseshoesConfig;
 
 @Mixin(GuiScreenHorseInventory.class)
 public abstract class DrawHorseshoesSlotInGui extends GuiContainer {
+    @Shadow @Final private AbstractHorse horseEntity;
     @Unique private static final ResourceLocation HORSESHOE_GUI_TEXTURE = new ResourceLocation("wornhorseshoes:textures/gui/container/horseshoes_background.png");
 
     public DrawHorseshoesSlotInGui(Container inventorySlotsIn) {
@@ -23,6 +28,7 @@ public abstract class DrawHorseshoesSlotInGui extends GuiContainer {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/inventory/GuiInventory;drawEntityOnScreen(IIIFFLnet/minecraft/entity/EntityLivingBase;)V")
     )
     private void whs_drawHorseshoeSlot(float partialTicks, int mouseX, int mouseY, CallbackInfo ci){
+        if(!HorseshoesConfig.canShoeHorse(horseEntity)) return;
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
 

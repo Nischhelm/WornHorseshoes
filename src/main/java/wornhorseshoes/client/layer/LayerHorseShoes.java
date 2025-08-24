@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import wornhorseshoes.client.model.ModelHorseShoes;
+import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.item.ItemHorseshoes;
 import wornhorseshoes.util.IHorseStackGetter;
 
@@ -32,6 +33,8 @@ public class LayerHorseShoes implements LayerRenderer<AbstractHorse> {
 
     @Override
     public void doRenderLayer(@Nonnull AbstractHorse horse, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        if(!HorseshoesConfig.canShoeHorse(horse)) return;
+
         ItemStack horseshoes = ((IHorseStackGetter) horse).whs$getHorseshoesStack();
         if (horseshoes.getItem() instanceof ItemHorseshoes) {
             this.horseRenderer.bindTexture(ItemHorseshoes.getHorseshoesTexture(horse, horseshoes));

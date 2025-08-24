@@ -6,6 +6,7 @@ import net.minecraft.entity.passive.EntityLlama;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import wornhorseshoes.config.folders.HorseshoesConfig;
 
 @Mixin(EntityLlama.class)
 public abstract class Llama_IncreaseInventorySize extends AbstractChestHorse {
@@ -19,6 +20,7 @@ public abstract class Llama_IncreaseInventorySize extends AbstractChestHorse {
     )
     //Seems stupid but if it doesn't have a chest attached, AbstractHorse is handling it
     private int whs_addHorseShoeSlot(int original){
+        if(!HorseshoesConfig.canShoeHorse(this)) return original;
         return original + (this.hasChest() ? 1 : 0);
     }
 }

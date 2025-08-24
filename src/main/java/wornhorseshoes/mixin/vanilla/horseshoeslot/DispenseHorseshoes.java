@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.item.ItemHorseArmor;
 import wornhorseshoes.item.ItemHorseshoes;
 
@@ -36,7 +37,8 @@ public abstract class DispenseHorseshoes {
         if (list.isEmpty()) cir.setReturnValue(ItemStack.EMPTY);
         else {
             if (item instanceof ItemHorseshoes) {
-                AbstractHorse horse = list.get(0);
+                AbstractHorse horse = list.stream().filter(HorseshoesConfig::canShoeHorse).findFirst().orElse(null);
+                if(horse == null) return;
                 ItemStack equipStack = stack.splitStack(1);
                 ContainerHorseChest horseChest = ((AbstractHorseAccessor) horse).getHorseChest();
                 horseChest.setInventorySlotContents(2, equipStack);
