@@ -29,7 +29,7 @@ import java.util.UUID;
 
 public class ItemHorseArmor extends ItemArmor {
     private static final UUID ARMOR_UUID = UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E");
-    private static final ArmorMaterial nullMaterial = EnumHelper.addArmorMaterial("nullMaterial", "", 0, new int[]{0,0,0,0}, 0, null, 0);
+    public static final ArmorMaterial nullMaterial = EnumHelper.addArmorMaterial("nullMaterial", "", 0, new int[]{0,0,0,0}, 0, null, 0);
     private final HorseArmorType horseArmorType;
 
     //For vanilla overwrite

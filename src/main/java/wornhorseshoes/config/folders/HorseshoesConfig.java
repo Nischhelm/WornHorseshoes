@@ -12,37 +12,60 @@ public class HorseshoesConfig {
 
     //TODO: what mobs can get horseshoes
 
-    //TODO register new horseshoes
+    @Config.Comment("Add horseshoes items here. Pattern: itemName, armorMaterialName\n" +
+            "If no armor material is provided, a default armor material is used. Horseshoes don't use armor material directly but other vanilla+modded mechanics do (example: enchanting uses material enchantability)\n" +
+            "Note: vanilla armor materials are written in all caps, like LEATHER and CHAIN, modded ones can be written in various ways.\n" +
+            "Location of the item texture json has to be wornhorseshoes:textures/models/item/itemName.json\n" +
+            "Location of the model texture has to be wornhorseshoes:textures/entity/horseshoes/itemName.png")
+    @Config.Name("Additional Horseshoes")
+    @Config.RequiresMcRestart
+    public String[] additionalHorseshoes = {};
 
-    @Config.Comment("Stats per material for horseshoes. Pattern: materialName, speedMod, jumpBoostMod\n" +
+    @Config.Comment("Stats per horseshoe item. Pattern: itemName, speedMod, jumpBoostMod\n" +
             "By default uses operation2 (MULT_TOTAL), use @operationNumber (0/1/2) to change")
-    @Config.Name("Horseshoe Material stats")
-    public String[] materialStatsEntries = {
-            "iron, 0.3, 0.3",
-            "diamond, 0.2, 0.5",
-            "gold, 0.5, 0.2"
+    @Config.Name("Horseshoe Stats")
+    public String[] itemStatsEntries = {
+            "horseshoes_iron, 0.3, 0.3",
+            "horseshoes_diamond, 0.2, 0.5",
+            "horseshoes_gold, 0.5, 0.2"
     };
 
     public static void init() {
-        for (String line : ModConfigHandler.horseshoes.materialStatsEntries) {
+        for (String line : ModConfigHandler.horseshoes.itemStatsEntries) {
             String[] split = line.split(",");
             if (split.length != 3) {
-                WornHorseshoes.LOGGER.warn("WornHorseshoes unable to parse Material stats line {}, expected three entries", line);
+                WornHorseshoes.LOGGER.warn("WornHorseshoes unable to parse Horseshoes stats line {}, expected three entries", line);
                 continue;
             }
-            String matName = split[0].trim();
+            String itemName = split[0].trim();
             try {
-                double speedMod = Double.parseDouble(split[1].trim());
-                double jumpMod = Double.parseDouble(split[2].trim());
-                materialStats.put(matName, new Pair<>(speedMod, jumpMod));
+                Modifier speedMod = new Modifier(split[1]);
+                Modifier jumpMod = new Modifier(split[2]);
+                itemStats.put(itemName, new Pair<>(speedMod, jumpMod));
             } catch (Exception e) {
-                WornHorseshoes.LOGGER.warn("WornHorseshoes unable to parse Material stats line {}, expected numbers in second and third entry", line);
+                WornHorseshoes.LOGGER.warn("WornHorseshoes unable to parse Horseshoes stats line {}, expected numbers in second and third entry", line);
             }
         }
     }
     public static void reset(){
-        materialStats.clear();
+        itemStats.clear();
     }
 
-    public static final Map<String, Pair<Double, Double>> materialStats = new HashMap<>();
+    public static final Map<String, Pair<Modifier, Modifier>> itemStats = new HashMap<>();
+
+    public static class Modifier {
+        public final double value;
+        public final int operation;
+
+        public Modifier(String entry) {
+            if (entry.contains("@")) {
+                String[] split = entry.split("@");
+                this.value = Double.parseDouble(split[0].trim());
+                this.operation = Integer.parseInt(split[1].trim());
+            } else {
+                this.value = Double.parseDouble(entry.trim());
+                this.operation = 2;
+            }
+        }
+    }
 }

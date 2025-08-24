@@ -28,6 +28,15 @@ public class RegistrationHandler {
         registeredHorseshoes.add(GOLD_HORSESHOE);
         registeredHorseshoes.add(IRON_HORSESHOE);
 
+        for(String entry : ModConfigHandler.horseshoes.additionalHorseshoes){
+            String[] split = entry.split(",");
+            String itemName = split[0].trim();
+            if(split.length == 1)
+                registeredHorseshoes.add(new ItemHorseshoes(entry.trim()));
+            else
+                registeredHorseshoes.add(new ItemHorseshoes(itemName, ItemArmor.ArmorMaterial.valueOf(split[1].trim())));
+        }
+
         registeredHorseshoes.forEach(item -> event.getRegistry().register(item));
     }
 

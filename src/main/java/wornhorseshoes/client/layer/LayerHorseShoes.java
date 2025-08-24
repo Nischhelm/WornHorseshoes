@@ -34,7 +34,7 @@ public class LayerHorseShoes implements LayerRenderer<AbstractHorse> {
     public void doRenderLayer(@Nonnull AbstractHorse horse, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         ItemStack horseshoes = ((IHorseStackGetter) horse).whs$getHorseshoesStack();
         if (horseshoes.getItem() instanceof ItemHorseshoes) {
-            this.horseRenderer.bindTexture(((ItemHorseshoes) horseshoes.getItem()).getHorseshoesTexture(horse, horseshoes));
+            this.horseRenderer.bindTexture(ItemHorseshoes.getHorseshoesTexture(horse, horseshoes));
             this.horseShoesModel.setModelAttributes(this.horseRenderer.getMainModel());
             this.horseShoesModel.setLivingAnimations(horse, limbSwing, limbSwingAmount, partialTicks);
             GlStateManager.color(1, 1, 1, 1);

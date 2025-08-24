@@ -50,5 +50,8 @@ public class ModConfigHandler {
 		HorseshoesConfig.reset();
 		EnchantmentConfig.reset();
 		AcquisitionConfig.reset();
+
+		preInit();
+		init();
 	}
 }

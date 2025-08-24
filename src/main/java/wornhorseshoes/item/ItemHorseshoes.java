@@ -22,7 +22,6 @@ import wornhorseshoes.WornHorseshoes;
 import wornhorseshoes.config.ModConfigHandler;
 import wornhorseshoes.config.folders.EnchantmentConfig;
 import wornhorseshoes.config.folders.HorseshoesConfig;
-import wornhorseshoes.mixin.vanilla.ArmorMaterialAccessor;
 import wornhorseshoes.util.Pair;
 
 import javax.annotation.Nonnull;
@@ -30,11 +29,25 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class ItemHorseshoes extends ItemArmor {
-    public ItemHorseshoes(String name, ItemArmor.ArmorMaterial material) {
+
+    private ResourceLocation textureLocation;
+
+    // Not recommended. Horseshoes don't use the ArmorMaterial properties directly but other minecraft+modded mechanics do (example: enchanting)
+    public ItemHorseshoes(String name) {
+        this(name, ItemHorseArmor.nullMaterial);
+    }
+
+    public ItemHorseshoes(String name, ArmorMaterial material) {
         super(material, 0, EntityEquipmentSlot.FEET);
         setRegistryName(WornHorseshoes.MODID,name);
         this.setTranslationKey(name);
         this.setCreativeTab(CreativeTabs.MISC);
+        setTextureLocation(new ResourceLocation(WornHorseshoes.MODID, "textures/entity/horseshoes/"+name+".png"));
+    }
+
+    public ItemHorseshoes setTextureLocation(ResourceLocation location){
+        this.textureLocation = location;
+        return this;
     }
 
     @Override
@@ -63,10 +76,10 @@ public class ItemHorseshoes extends ItemArmor {
         multimap.get(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName()).clear();
 
         if (equipmentSlot == this.armorType) {
-            Pair<Double, Double> modifiers = HorseshoesConfig.materialStats.get(this.getArmorMaterial().getName());
+            Pair<HorseshoesConfig.Modifier, HorseshoesConfig.Modifier> modifiers = HorseshoesConfig.itemStats.get(this.getRegistryName().getPath());
             if(modifiers != null) {
-                multimap.put(SharedMonsterAttributes.MOVEMENT_SPEED.getName(), new AttributeModifier(UUID.nameUUIDFromBytes("wornhorseshoes_modifier".getBytes()), "Speed modifier", modifiers.getLeft(), 2));
-                multimap.put("horse.jumpStrength", new AttributeModifier(UUID.nameUUIDFromBytes("wornhorseshoes_modifier".getBytes()), "Jump Strength modifier", modifiers.getRight(), 2));
+                multimap.put(SharedMonsterAttributes.MOVEMENT_SPEED.getName(), new AttributeModifier(UUID.nameUUIDFromBytes("wornhorseshoes_modifier".getBytes()), "Speed modifier", modifiers.getLeft().value, modifiers.getLeft().operation));
+                multimap.put("horse.jumpStrength", new AttributeModifier(UUID.nameUUIDFromBytes("wornhorseshoes_modifier".getBytes()), "Jump Strength modifier", modifiers.getRight().value, modifiers.getRight().operation));
             }
         }
 
@@ -78,17 +91,11 @@ public class ItemHorseshoes extends ItemArmor {
         return false;
     }
 
-    public ResourceLocation getHorseshoesTexture(EntityLiving wearer, ItemStack stack) {
+    public static ResourceLocation getHorseshoesTexture(EntityLiving wearer, ItemStack stack) {
         Item item = stack.getItem();
-        if(!(item instanceof ItemHorseshoes)) return new ResourceLocation("");
-        ItemHorseshoes horseshoes = (ItemHorseshoes) stack.getItem();
-        switch (horseshoes.getArmorMaterial()){
-            //TODO: cache on construction
-            case DIAMOND: return new ResourceLocation("wornhorseshoes:textures/entity/horseshoes/horseshoes_diamond.png");
-            case GOLD: return new ResourceLocation("wornhorseshoes:textures/entity/horseshoes/horseshoes_gold.png");
-            case IRON: return new ResourceLocation("wornhorseshoes:textures/entity/horseshoes/horseshoes_iron.png");
-        }
-        return new ResourceLocation("");
+        if(!(item instanceof ItemHorseshoes))
+            return new ResourceLocation("");
+        return ((ItemHorseshoes) item).textureLocation;
     }
 
     @Override
