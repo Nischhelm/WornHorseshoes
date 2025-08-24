@@ -1,16 +1,31 @@
 package wornhorseshoes.config.folders;
 
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.passive.AbstractHorse;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
 import wornhorseshoes.WornHorseshoes;
 import wornhorseshoes.config.ModConfigHandler;
 import wornhorseshoes.util.Pair;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class HorseshoesConfig {
 
-    //TODO: what mobs can get horseshoes
+    @Config.Comment("Add or remove mobs that are allowed to get horseshoes. \n" +
+            "Note: This won't work for modded mobs that aren't inheriting AbstractHorse in their code, and will most probably not work fully for those that do.")
+    @Config.Name("Mobs that can get horseshoes")
+    @Config.RequiresMcRestart
+    public String[] horseshoeMobs = {
+            "minecraft:horse",
+            "minecraft:donkey",
+            "minecraft:mule",
+            "minecraft:skeleton_horse",
+            "minecraft:zombie_horse",
+            "minecraft:llama"
+    };
 
     @Config.Comment("Add horseshoes items here. Pattern: itemName, armorMaterialName\n" +
             "If no armor material is provided, a default armor material is used. Horseshoes don't use armor material directly but other vanilla+modded mechanics do (example: enchanting uses material enchantability)\n" +
@@ -49,6 +64,7 @@ public class HorseshoesConfig {
     }
     public static void reset(){
         itemStats.clear();
+        canShoe.clear();
     }
 
     public static final Map<String, Pair<Modifier, Modifier>> itemStats = new HashMap<>();
@@ -67,5 +83,17 @@ public class HorseshoesConfig {
                 this.operation = 2;
             }
         }
+    }
+
+    private static final Map<Class<? extends AbstractHorse>, Boolean> canShoe = new HashMap<>();
+
+    public static boolean canShoeHorse(AbstractHorse horse) {
+        return canShoeHorse(horse.getClass());
+    }
+    public static boolean canShoeHorse(Class<? extends AbstractHorse> horseClass) {
+        return canShoe.computeIfAbsent(horseClass, clazz -> {
+            ResourceLocation loc = EntityList.getKey(clazz);
+            return loc != null && Arrays.asList(ModConfigHandler.horseshoes.horseshoeMobs).contains(loc.toString());
+        });
     }
 }
