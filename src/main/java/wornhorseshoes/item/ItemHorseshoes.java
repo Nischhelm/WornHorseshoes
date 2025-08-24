@@ -22,6 +22,7 @@ import wornhorseshoes.WornHorseshoes;
 import wornhorseshoes.config.ModConfigHandler;
 import wornhorseshoes.config.folders.EnchantmentConfig;
 import wornhorseshoes.config.folders.HorseshoesConfig;
+import wornhorseshoes.mixin.vanilla.ArmorMaterialAccessor;
 import wornhorseshoes.util.Pair;
 
 import javax.annotation.Nonnull;
@@ -29,10 +30,10 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class ItemHorseshoes extends ItemArmor {
-    public ItemHorseshoes(ItemArmor.ArmorMaterial material) {
+    public ItemHorseshoes(String name, ItemArmor.ArmorMaterial material) {
         super(material, 0, EntityEquipmentSlot.FEET);
-        setRegistryName(WornHorseshoes.MODID,"horseshoes_"+material.getName());
-        this.setTranslationKey("horseshoes_"+material.getName());
+        setRegistryName(WornHorseshoes.MODID,name);
+        this.setTranslationKey(name);
         this.setCreativeTab(CreativeTabs.MISC);
     }
 

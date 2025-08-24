@@ -18,9 +18,9 @@ import java.util.Set;
 @Mod.EventBusSubscriber(modid = WornHorseshoes.MODID)
 public class RegistrationHandler {
     public static Set<ItemHorseshoes> registeredHorseshoes = new HashSet<>();
-    public static ItemHorseshoes DIAMOND_HORSESHOE = new ItemHorseshoes(ItemArmor.ArmorMaterial.DIAMOND);
-    public static ItemHorseshoes GOLD_HORSESHOE = new ItemHorseshoes(ItemArmor.ArmorMaterial.GOLD);
-    public static ItemHorseshoes IRON_HORSESHOE = new ItemHorseshoes(ItemArmor.ArmorMaterial.IRON);
+    public static ItemHorseshoes DIAMOND_HORSESHOE = new ItemHorseshoes("horseshoes_diamond", ItemArmor.ArmorMaterial.DIAMOND);
+    public static ItemHorseshoes GOLD_HORSESHOE = new ItemHorseshoes("horseshoes_gold", ItemArmor.ArmorMaterial.GOLD);
+    public static ItemHorseshoes IRON_HORSESHOE = new ItemHorseshoes("horseshoes_iron", ItemArmor.ArmorMaterial.IRON);
 
     @SubscribeEvent
     public static void onItemRegistration(RegistryEvent.Register<Item> event){
