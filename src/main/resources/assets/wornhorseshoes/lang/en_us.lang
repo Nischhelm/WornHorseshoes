@@ -3,3 +3,4 @@ item.horseshoes_gold.name=Gold Horseshoes
 item.horseshoes_iron.name=Iron Horseshoes
 
 enchantment.trampling=Trampling
+enchantment.wornhorseshoes.trampling.desc=Knocks mobs back and damages them when trampling over them
