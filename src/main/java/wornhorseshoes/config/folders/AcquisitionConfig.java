@@ -17,13 +17,16 @@ public class AcquisitionConfig {
     @Config.Name("Leatherworker sells Horseshoes")
     public boolean leatherworkerSells = true;
 
-    @Config.Comment("Trades defined per horseshoe. Each line consists of\n" +
-            "itemid, minPrice, maxPrice, weight\n" +
-            "Where the price is in emeralds and the weight defines how often this specific trade is chosen. Each leatherworker only has one horseshoe trade")
+    @Config.Comment({
+            "Trades defined per horseshoe. Each line consists of",
+            "itemid, minPrice, maxPrice, weight, minEnch, maxEnch",
+            "Where the price is in emeralds and the weight defines how often this specific trade is chosen. Each leatherworker only has one horseshoe trade",
+            "Optional: minEnch/maxEnch to enchant the horseshoes with a random enchantment table level in the given range"
+    })
     @Config.Name("Leatherworker Horseshoe trades")
     public String[] leatherworkerTradeEntries = {
             "horseshoes_diamond, 8, 10, 1",
-            "horseshoes_gold, 8, 10, 1",
+            "horseshoes_gold, 8, 10, 1, 5, 20",
             "horseshoes_iron, 8, 10, 1"
     };
 
@@ -56,11 +59,12 @@ public class AcquisitionConfig {
     public static class TradeEntry extends WeightedRandom.Item {
         public ItemHorseshoes item;
         public int minPrice, maxPrice;
+        public int minEnchLvl = -1, maxEnchLvl = -1;
 
         public TradeEntry(String configLine){
             super(0);
             String[] split = configLine.split(",");
-            if(split.length != 4) return;
+            if(split.length < 4) return;
 
             String itemid = split[0].trim();
             if(!itemid.contains(":")) itemid = WornHorseshoes.MODID + ":" + itemid;
@@ -71,6 +75,11 @@ public class AcquisitionConfig {
                 this.minPrice = Integer.parseInt(split[1].trim());
                 this.maxPrice = Integer.parseInt(split[2].trim());
                 this.itemWeight = Integer.parseInt(split[3].trim());
+
+                try {
+                    this.minEnchLvl = Integer.parseInt(split[4].trim());
+                    this.maxEnchLvl = Integer.parseInt(split[5].trim());
+                } catch (Exception ignored) {}
 
                 //add to list of valid entries
                 leatherWorkerTrades.add(this);

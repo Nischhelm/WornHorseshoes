@@ -1,5 +1,6 @@
 package wornhorseshoes.handlers;
 
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -29,6 +30,9 @@ public class HorseshoeAcquisition {
 
             ItemStack emeralds = new ItemStack(Items.EMERALD, MathHelper.getInt(random, entry.minPrice, entry.maxPrice), 0);
             ItemStack horseshoes = new ItemStack(entry.item);
+
+            if(entry.minEnchLvl != -1)
+                EnchantmentHelper.addRandomEnchantment(random, horseshoes, MathHelper.getInt(random, entry.minEnchLvl, entry.maxEnchLvl == -1 ? entry.minEnchLvl : entry.maxEnchLvl), true);
 
             recipeList.add(new MerchantRecipe(emeralds, horseshoes));
         });
