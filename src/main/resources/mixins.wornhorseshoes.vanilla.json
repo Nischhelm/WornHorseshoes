@@ -9,7 +9,8 @@
     "vanilla.enchantments.GeneralHorseEnchantmentHandling",
     "vanilla.RearingFix",
     "vanilla.horseshoeslot.AbstractHorseAccessor",
-    "vanilla.renderenchantedlayers.SyncStacks"
+    "vanilla.renderenchantedlayers.SyncStacks",
+    "vanilla.renderenchantedlayers.SyncStacks_EntityAnimal"
   ],
   "injectors": {
     "maxShiftBy": 10

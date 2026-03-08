@@ -5,16 +5,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.util.IHorseStackGetter;
 
@@ -26,14 +20,8 @@ public abstract class SyncStacks extends Entity implements IHorseStackGetter {
         super(worldIn);
     }
 
-    @Unique private static final DataParameter<ItemStack> SADDLE_STACK = EntityDataManager.createKey(AbstractHorse.class, DataSerializers.ITEM_STACK);
-    @Unique private static final DataParameter<ItemStack> HORSESHOE_STACK = EntityDataManager.createKey(AbstractHorse.class, DataSerializers.ITEM_STACK);
-
-    @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/AbstractHorse;initHorseChest()V", unsafe = true))
-    private void whs_registerSaddleDataParameter(World worldIn, CallbackInfo ci){
-        this.dataManager.register(SADDLE_STACK, ItemStack.EMPTY);
-        if(HorseshoesConfig.canShoeHorse((AbstractHorse) (Object) this))
-            this.dataManager.register(HORSESHOE_STACK, ItemStack.EMPTY);
+    static {
+        IHorseStackGetter.registerDataParameters();
     }
 
     @ModifyExpressionValue(

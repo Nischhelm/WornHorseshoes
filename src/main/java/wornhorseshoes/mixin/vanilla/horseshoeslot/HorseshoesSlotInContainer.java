@@ -28,31 +28,30 @@ public abstract class HorseshoesSlotInContainer extends Container {
     @Shadow @Final private IInventory horseInventory;
     @Shadow @Final private AbstractHorse horse;
 
-    @Inject(
-            method = "<init>",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/inventory/ContainerHorseInventory;addSlotToContainer(Lnet/minecraft/inventory/Slot;)Lnet/minecraft/inventory/Slot;",
-                    ordinal = 1,
-                    shift = At.Shift.AFTER,
-                    unsafe = true
-            ) //sketchy af injection but needed to be at slot index 2
-    )
+    @Inject(method = "<init>", at = @At(value = "TAIL"))
     private void whs_addHorseShoeSlot(IInventory playerInventory, IInventory horseInventoryIn, AbstractHorse horse, EntityPlayer player, CallbackInfo ci){
-        if(HorseshoesConfig.canShoeHorse(horse))
-            this.addSlotToContainer(new Slot(horseInventoryIn, 2, 8, 54) {
+        if(HorseshoesConfig.canShoeHorse(horse)) {
+            Slot slot = new Slot(horseInventoryIn, 2, 8, 54) {
                 public boolean isItemValid(@Nonnull ItemStack stack) {
                     return stack.getItem() instanceof ItemHorseshoes;
                 }
-                public int getSlotStackLimit()
-                {
+
+                public int getSlotStackLimit() {
                     return 1;
                 }
+
                 @SideOnly(Side.CLIENT)
                 public boolean isEnabled() {
                     return true;
                 }
-            });
+            };
+            for (int i = 2; i < this.inventorySlots.size(); ++i) {
+                this.inventorySlots.get(i).slotNumber = i + 1; //shift all except 0 and 1 one up
+            }
+            slot.slotNumber = 2;
+            this.inventorySlots.add(2, slot);
+            this.inventoryItemStacks.add(ItemStack.EMPTY);
+        }
     }
 
     @ModifyConstant(
