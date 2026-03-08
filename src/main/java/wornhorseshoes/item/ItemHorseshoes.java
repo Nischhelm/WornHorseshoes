@@ -91,6 +91,11 @@ public class ItemHorseshoes extends ItemArmor {
         return false;
     }
 
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return ModConfigHandler.enchants.horseshoesEnchantable ? this.getItemStackLimit(stack) == 1 : super.isEnchantable(stack);
+    }
+
     public static ResourceLocation getHorseshoesTexture(EntityLiving wearer, ItemStack stack) {
         Item item = stack.getItem();
         if(!(item instanceof ItemHorseshoes))

@@ -80,6 +80,11 @@ public class ItemHorseArmor extends ItemArmor {
     }
 
     @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return ModConfigHandler.enchants.horseArmorEnchantable ? this.getItemStackLimit(stack) == 1 : super.isEnchantable(stack);
+    }
+
+    @Override
     @Nonnull
     public HorseArmorType getHorseArmorType(@Nonnull ItemStack stack) {
         if(this.horseArmorType == null)
