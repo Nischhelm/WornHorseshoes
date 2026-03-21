@@ -37,14 +37,14 @@ public abstract class GeneralHorseEnchantmentHandling extends EntityLivingBase {
         }
     }
 
-    @Inject(
-            method = "travel",
-            at = @At(value = "FIELD", target = "Lnet/minecraft/entity/passive/AbstractHorse;jumpPower:F", ordinal = 5)
-    )
-    public void whs_fireLivingJumpEvent(float strafe, float vertical, float forward, CallbackInfo ci){
-        //TODO why no work
-        ForgeHooks.onLivingJump(this);
-    }
+//    @Inject(
+//            method = "travel",
+//            at = @At(value = "FIELD", target = "Lnet/minecraft/entity/passive/AbstractHorse;jumpPower:F", ordinal = 5)
+//    )
+//    public void whs_fireLivingJumpEvent(float strafe, float vertical, float forward, CallbackInfo ci){
+//        //TODO why no work
+//        ForgeHooks.onLivingJump(this);
+//    }
 
     @Override
     @Nonnull
