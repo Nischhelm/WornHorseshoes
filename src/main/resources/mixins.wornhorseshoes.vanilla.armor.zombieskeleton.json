@@ -7,6 +7,6 @@
   "minVersion": "0.8",
   "mixins": [
     "vanilla.horsearmor.AbstractHorse_SaveZombieSkeletonArmor",
-    "vanilla.horsearmor.DonkeyMuleZombieSkeletonHorseArmor"
+    "vanilla.horsearmor.AllHorsesUseArmor"
   ]
 }

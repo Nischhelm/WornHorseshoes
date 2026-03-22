@@ -10,14 +10,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import wornhorseshoes.config.ModConfigHandler;
+import wornhorseshoes.config.folders.HorseArmorConfig;
 import wornhorseshoes.mixin.vanilla.accessors.HorseArmorAccessor;
 import wornhorseshoes.util.IHorseStackGetter;
 
 @Mixin({EntityZombieHorse.class, EntitySkeletonHorse.class, AbstractChestHorse.class})
-public abstract class DonkeyMuleZombieSkeletonHorseArmor extends AbstractHorse {
+public abstract class AllHorsesUseArmor extends AbstractHorse {
     //TODO: zombies spawn on despawnable zombie horses
 
-    public DonkeyMuleZombieSkeletonHorseArmor(World worldIn) {
+    public AllHorsesUseArmor(World worldIn) {
         super(worldIn);
     }
 
@@ -53,11 +55,11 @@ public abstract class DonkeyMuleZombieSkeletonHorseArmor extends AbstractHorse {
 
     @Override
     public boolean wearsArmor() {
-        return true; //TODO: config
+        return HorseArmorConfig.canUseArmor(this);
     }
 
     @Override
     public boolean isArmor(ItemStack stack) {
-        return HorseArmorType.isHorseArmor(stack); //TODO: config
+        return HorseArmorConfig.canUseArmor(this) && HorseArmorType.isHorseArmor(stack);
     }
 }
