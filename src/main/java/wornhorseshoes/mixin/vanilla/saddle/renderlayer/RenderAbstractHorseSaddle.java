@@ -1,7 +1,7 @@
-package wornhorseshoes.mixin.vanilla.renderenchantedlayers.saddle;
+package wornhorseshoes.mixin.vanilla.saddle.renderlayer;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.entity.RenderHorse;
+import net.minecraft.client.renderer.entity.RenderAbstractHorse;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.passive.AbstractHorse;
@@ -11,14 +11,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import wornhorseshoes.client.layer.LayerHorseSaddle;
 
-@Mixin(RenderHorse.class)
-public abstract class RenderHorseSaddle extends RenderLiving<AbstractHorse> {
-    public RenderHorseSaddle(RenderManager rendermanagerIn, ModelBase modelbaseIn, float shadowsizeIn) {
+@Mixin(RenderAbstractHorse.class)
+public abstract class RenderAbstractHorseSaddle extends RenderLiving<AbstractHorse> {
+    public RenderAbstractHorseSaddle(RenderManager rendermanagerIn, ModelBase modelbaseIn, float shadowsizeIn) {
         super(rendermanagerIn, modelbaseIn, shadowsizeIn);
     }
 
-    @Inject(method = "<init>", at = @At("TAIL"))
-    private void whs_registerHorseSaddleLayer(RenderManager renderer, CallbackInfo ci){
+    @Inject(method = "<init>(Lnet/minecraft/client/renderer/entity/RenderManager;F)V", at = @At("TAIL"))
+    private void whs_registerHorseSaddleLayer(RenderManager renderManagerIn, float scaleIn, CallbackInfo ci){
         this.addLayer(new LayerHorseSaddle(this));
     }
 }

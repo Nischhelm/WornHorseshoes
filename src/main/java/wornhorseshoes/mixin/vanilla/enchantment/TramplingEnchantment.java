@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.enchantments;
+package wornhorseshoes.mixin.vanilla.enchantment;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;

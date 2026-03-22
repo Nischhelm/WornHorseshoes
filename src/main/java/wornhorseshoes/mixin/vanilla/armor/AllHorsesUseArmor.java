@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.horsearmor;
+package wornhorseshoes.mixin.vanilla.armor;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -10,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import wornhorseshoes.config.ModConfigHandler;
 import wornhorseshoes.config.folders.HorseArmorConfig;
 import wornhorseshoes.mixin.vanilla.accessors.HorseArmorAccessor;
 import wornhorseshoes.util.IHorseStackGetter;

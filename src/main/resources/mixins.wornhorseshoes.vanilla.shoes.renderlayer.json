@@ -9,8 +9,8 @@
     "maxShiftBy": 10
   },
   "client": [
-    "vanilla.renderenchantedlayers.horseshoes.RenderAbstractHorseshoes",
-    "vanilla.renderenchantedlayers.horseshoes.RenderHorseshoes",
-    "vanilla.renderenchantedlayers.horseshoes.RenderLlamaShoes"
+    "vanilla.horseshoeslot.renderlayer.RenderAbstractHorseshoes",
+    "vanilla.horseshoeslot.renderlayer.RenderHorseshoes",
+    "vanilla.horseshoeslot.renderlayer.RenderLlamaShoes"
   ]
 }

@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.horseencounters;
+package wornhorseshoes.mixin.vanilla.encounter;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.enchantment.EnchantmentHelper;

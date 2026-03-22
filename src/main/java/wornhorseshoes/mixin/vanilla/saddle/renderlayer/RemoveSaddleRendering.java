@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.renderenchantedlayers.saddle;
+package wornhorseshoes.mixin.vanilla.saddle.renderlayer;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.model.ModelHorse;

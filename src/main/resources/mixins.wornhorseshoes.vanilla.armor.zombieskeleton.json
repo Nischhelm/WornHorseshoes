@@ -6,7 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "vanilla.horsearmor.AbstractHorse_SaveZombieSkeletonArmor",
-    "vanilla.horsearmor.AllHorsesUseArmor"
+    "vanilla.armor.AbstractHorse_SaveZombieSkeletonArmor",
+    "vanilla.armor.AllHorsesUseArmor"
   ]
 }

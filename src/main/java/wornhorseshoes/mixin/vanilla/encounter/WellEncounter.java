@@ -1,6 +1,5 @@
-package wornhorseshoes.mixin.vanilla.horseencounters;
+package wornhorseshoes.mixin.vanilla.encounter;
 
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -13,14 +12,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wornhorseshoes.config.ModConfigHandler;
+import wornhorseshoes.config.folders.AcquisitionConfig;
 import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.handlers.RegistrationHandler;
+import wornhorseshoes.item.ItemHorseshoes;
 import wornhorseshoes.mixin.vanilla.accessors.AbstractHorseAccessor;
 
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
-@Mixin(StructureVillagePieces.Church.class)
-public abstract class ChurchEncounter extends StructureComponent {
+@Mixin(StructureVillagePieces.Well.class)
+public abstract class WellEncounter extends StructureComponent {
     @Unique private boolean whs$triedToSpawnHorse = false;
 
     @Inject(method = "addComponentParts", at = @At("TAIL"))
@@ -28,26 +31,17 @@ public abstract class ChurchEncounter extends StructureComponent {
         if(!HorseshoesConfig.canShoeHorse(EntityHorse.class)) return;
         if(this.whs$triedToSpawnHorse) return;
         this.whs$triedToSpawnHorse = true;
-        if(randomIn.nextFloat() >= ModConfigHandler.acquisition.wellEncounterChance / 100F) return;
+        if(randomIn.nextFloat() >= ModConfigHandler.acquisition.wellEncounterChance) return;
 
-        EntityHorse juan = new EntityHorse(worldIn);
-        juan.setCustomNameTag("Juan");
-        juan.setLocationAndAngles(this.getXWithOffset(2, 2) + 0.5D, this.getYWithOffset(10), this.getZWithOffset(2, 2) + 0.5D, 0.0F, 0.0F);
+        EntityHorse horse = new EntityHorse(worldIn);
+        horse.setLocationAndAngles(this.getXWithOffset(3, 0) + 0.5D, this.getYWithOffset(12), this.getZWithOffset(3, 0), 0.0F, 0.0F);
 
-        /*
-        lower 8 bits are color
-        (horseVar & 0b11111111) % 0b111 == 0b11               //color
-        higher 8 bits are marking
-        ((horseVar & 0b1111111100000000) / 256) % 0b101 == 0  //markings
+        List<ItemHorseshoes> shoes = RegistrationHandler.registeredHorseshoes.stream()
+                .filter(item -> item.getRegistryName() != null && !AcquisitionConfig.wellEncounterBlacklistSet.contains(item.getRegistryName().toString()))
+                .collect(Collectors.toList());
 
-        actual variant: 0b(0000 0000)(0000 0011) = 3
-         */
-        juan.setHorseVariant(3);
+        ((AbstractHorseAccessor) horse).getHorseChest().setInventorySlotContents(2, new ItemStack(shoes.get(randomIn.nextInt(shoes.size()))));
 
-        ItemStack shoes = new ItemStack(RegistrationHandler.GOLD_HORSESHOE);
-        EnchantmentHelper.addRandomEnchantment(randomIn, shoes, 20, false);
-        ((AbstractHorseAccessor) juan).getHorseChest().setInventorySlotContents(2, shoes);
-
-        worldIn.spawnEntity(juan);
+        worldIn.spawnEntity(horse);
     }
 }

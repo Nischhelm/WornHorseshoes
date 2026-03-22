@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.enchantments;
+package wornhorseshoes.mixin.vanilla.enchantment;
 
 import net.minecraftforge.event.entity.living.LivingEvent;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.horsearmor;
+package wornhorseshoes.mixin.vanilla.armor;
 
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.passive.EntityHorse;

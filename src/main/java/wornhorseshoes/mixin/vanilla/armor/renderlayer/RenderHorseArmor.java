@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.renderenchantedlayers.armor;
+package wornhorseshoes.mixin.vanilla.armor.renderlayer;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderAbstractHorse;

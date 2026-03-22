@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.horsearmor;
+package wornhorseshoes.mixin.vanilla.armor;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

@@ -9,8 +9,8 @@
     "maxShiftBy": 10
   },
   "client": [
-    "vanilla.renderenchantedlayers.saddle.RemoveSaddleRendering",
-    "vanilla.renderenchantedlayers.saddle.RenderAbstractHorseSaddle",
-    "vanilla.renderenchantedlayers.saddle.RenderHorseSaddle"
+    "vanilla.saddle.renderlayer.RemoveSaddleRendering",
+    "vanilla.saddle.renderlayer.RenderAbstractHorseSaddle",
+    "vanilla.saddle.renderlayer.RenderHorseSaddle"
   ]
 }

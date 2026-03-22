@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "wornhorseshoes.mixin.vanilla.horseencounters",
+  "package": "wornhorseshoes.mixin.vanilla.encounter",
   "refmap": "mixins.wornhorseshoes.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
