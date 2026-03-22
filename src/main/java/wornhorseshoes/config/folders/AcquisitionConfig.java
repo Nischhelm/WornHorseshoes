@@ -1,5 +1,6 @@
 package wornhorseshoes.config.folders;
 
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraft.item.Item;
 import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.common.config.Config;
@@ -12,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@MixinConfig(name = WornHorseshoes.MODID)
 public class AcquisitionConfig {
     @Config.Comment("Global toggle for Horseshoe trade at Leatherworker Villager")
     @Config.Name("Leatherworker sells Horseshoes")
@@ -29,6 +31,12 @@ public class AcquisitionConfig {
             "horseshoes_gold, 8, 10, 1, 5, 20",
             "horseshoes_iron, 8, 10, 1"
     };
+
+    @Config.Comment("MixinToggle. This enables the random well encounter of a horse with horseshoes.")
+    @Config.Name("Well Encounter Enabled")
+    @MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.encounter.wellchurch.json", defaultValue = true)
+    @Config.RequiresMcRestart
+    public boolean wellEncounterEnabled = true;
 
     @Config.Comment("Chance to encounter an untamed horse wearing random horseshoes on any village well")
     @Config.Name("Well Encounter Chance")

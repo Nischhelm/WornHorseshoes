@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wornhorseshoes.handlers.RegistrationHandler;
-import wornhorseshoes.mixin.vanilla.horseshoeslot.AbstractHorseAccessor;
+import wornhorseshoes.mixin.vanilla.accessors.AbstractHorseAccessor;
 import wornhorseshoes.util.IHorseStackGetter;
 
 @Mixin(EntityAISkeletonRiders.class)

@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wornhorseshoes.config.ModConfigHandler;
 import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.handlers.RegistrationHandler;
-import wornhorseshoes.mixin.vanilla.horseshoeslot.AbstractHorseAccessor;
+import wornhorseshoes.mixin.vanilla.accessors.AbstractHorseAccessor;
 
 import java.util.Random;
 

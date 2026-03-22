@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.item.ItemHorseArmor;
 import wornhorseshoes.item.ItemHorseshoes;
+import wornhorseshoes.mixin.vanilla.accessors.AbstractHorseAccessor;
 
 import java.util.List;
 

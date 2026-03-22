@@ -6,7 +6,10 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "vanilla.SyncStacks",
-    "vanilla.DataParameterRegistration"
+    "vanilla.accessors.HorseArmorAccessor",
+    "vanilla.accessors.AbstractHorseAccessor"
+  ],
+  "client": [
+    "vanilla.accessors.RenderAccessor"
   ]
 }

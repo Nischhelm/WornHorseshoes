@@ -1,5 +1,6 @@
 package wornhorseshoes.config.folders;
 
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.util.ResourceLocation;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+@MixinConfig(name = WornHorseshoes.MODID)
 public class HorseshoesConfig {
 
     @Config.Comment("Add or remove mobs that are allowed to get horseshoes. \n" +
@@ -44,6 +46,18 @@ public class HorseshoesConfig {
             "horseshoes_diamond, 0.2, 0.5",
             "horseshoes_gold, 0.5, 0.2"
     };
+
+    @Config.Comment("MixinToggle. Main toggle for Horseshoes. Disable this if you use this mod for its other features.")
+    @Config.Name("Enable Horseshoes")
+    @MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.horseshoes.json", defaultValue = true)
+    @Config.RequiresMcRestart
+    public boolean enableHorseshoes = true;
+
+    @Config.Comment("MixinToggle. Adds a render layer for horseshoes to (Zombie/Skeleton/Normal) Horses, Donkeys, Mules and Llamas.")
+    @Config.Name("Render Horseshoes Layer")
+    @MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.shoes.renderlayer.json", defaultValue = true)
+    @Config.RequiresMcRestart
+    public boolean horseshoesLayer = true;
 
     public static void init() {
         for (String line : ModConfigHandler.horseshoes.itemStatsEntries) {

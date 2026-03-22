@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.renderenchantedlayers;
+package wornhorseshoes.mixin.vanilla;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.entity.Entity;
@@ -65,12 +65,15 @@ public abstract class SyncStacks extends Entity implements IHorseStackGetter {
     }
 
     @Inject(method = "onUpdate", at = @At(value = "TAIL"))
-    private void whs_updateSaddleStack(CallbackInfo ci){
+    private void whs_updateArmorTexture(CallbackInfo ci){
         if (!this.world.isRemote) return;
         if (!this.dataManager.isDirty()) return;
         AbstractHorse thisHorse = (AbstractHorse) (Object) this;
         ItemStack armorStack = IHorseStackGetter.getArmorStack(thisHorse);
         if(armorStack.isEmpty()) whs$setArmorTexture(null);
-        else whs$setArmorTexture(new ResourceLocation(armorStack.getItem().getHorseArmorTexture(thisHorse, armorStack)));
+        else {
+            String loc = armorStack.getItem().getHorseArmorTexture(thisHorse, armorStack);
+            whs$setArmorTexture(loc == null ? null : new ResourceLocation(loc));
+        }
     }
 }

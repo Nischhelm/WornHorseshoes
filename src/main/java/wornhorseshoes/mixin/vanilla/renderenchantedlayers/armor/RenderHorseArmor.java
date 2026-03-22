@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.passive.AbstractHorse;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -18,8 +19,12 @@ public abstract class RenderHorseArmor <T extends AbstractHorse> extends RenderL
         super(rendermanagerIn, modelbaseIn, shadowsizeIn);
     }
 
-    @Inject(method = "<init>(Lnet/minecraft/client/renderer/entity/RenderManager;)V", at = @At("TAIL"))
-    private void whs_registerHorseArmorLayer(RenderManager renderer, CallbackInfo ci){
+    @Unique private boolean whs$alreadyAddedArmorLayer = false;
+
+    @Inject(method = {"<init>(Lnet/minecraft/client/renderer/entity/RenderManager;)V", "<init>(Lnet/minecraft/client/renderer/entity/RenderManager;F)V"}, at = @At("TAIL"))
+    private void whs_registerHorseArmorLayer(CallbackInfo ci){
+        if(this.whs$alreadyAddedArmorLayer) return; //render abstract horse has two inits that call each other
         this.addLayer(new LayerHorseArmor<>(this));
+        this.whs$alreadyAddedArmorLayer = true;
     }
 }

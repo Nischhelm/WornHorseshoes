@@ -99,7 +99,6 @@ public class ModelHorseArmor extends ModelBase {
     public void render(@Nonnull Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         AbstractHorse horse = (AbstractHorse)entity;
         if(horse.isChild()) return;
-        if(horse instanceof AbstractChestHorse) return;
 
         this.backLeftLeg.render(scale);
         this.backRightLeg.render(scale);

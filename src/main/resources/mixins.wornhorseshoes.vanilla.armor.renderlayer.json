@@ -5,13 +5,13 @@
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
+  "mixins": [
+    "vanilla.renderenchantedlayers.armor.RemoveOriginalArmorLayer"
+  ],
   "injectors": {
     "maxShiftBy": 10
   },
   "client": [
-    "vanilla.renderenchantedlayers.saddle.RemoveSaddleRendering",
-    "vanilla.renderenchantedlayers.saddle.RenderAbstractHorseSaddle",
-    "vanilla.renderenchantedlayers.saddle.RenderAccessor",
-    "vanilla.renderenchantedlayers.saddle.RenderHorseSaddle"
+    "vanilla.renderenchantedlayers.armor.RenderHorseArmor"
   ]
 }

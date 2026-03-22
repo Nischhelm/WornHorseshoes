@@ -8,31 +8,24 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import wornhorseshoes.mixin.vanilla.renderenchantedlayers.armor.HorseArmorAccessor;
+import wornhorseshoes.mixin.vanilla.accessors.HorseArmorAccessor;
 import wornhorseshoes.util.IHorseStackGetter;
 
-@Mixin({EntityZombieHorse.class, EntitySkeletonHorse.class})
-public abstract class ZombieHorseArmor extends AbstractHorse {
+@Mixin({EntityZombieHorse.class, EntitySkeletonHorse.class, AbstractChestHorse.class})
+public abstract class DonkeyMuleZombieSkeletonHorseArmor extends AbstractHorse {
     //TODO: zombies spawn on despawnable zombie horses
 
-    public ZombieHorseArmor(World worldIn) {
+    public DonkeyMuleZombieSkeletonHorseArmor(World worldIn) {
         super(worldIn);
-    }
-
-    @Override
-    protected void entityInit() {
-        super.entityInit();
-        DataParameter<ItemStack> param = IHorseStackGetter.getArmorParameter(this);
-        if(param != null) this.dataManager.register(param, ItemStack.EMPTY);
     }
 
     @Override
     protected void updateHorseSlots() {
         super.updateHorseSlots();
 
+        if((AbstractHorse) this instanceof EntityLlama) return;
         ItemStack armorStack = this.horseChest.getStackInSlot(1);
         HorseArmorType horsearmortype = HorseArmorType.getByItemStack(armorStack);
         IHorseStackGetter.setArmorStack(this, armorStack);

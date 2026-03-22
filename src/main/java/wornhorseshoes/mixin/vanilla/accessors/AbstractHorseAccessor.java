@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.horseshoeslot;
+package wornhorseshoes.mixin.vanilla.accessors;
 
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.inventory.ContainerHorseChest;

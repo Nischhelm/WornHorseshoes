@@ -1,8 +1,10 @@
-package wornhorseshoes.mixin.vanilla.renderenchantedlayers;
+package wornhorseshoes.mixin.vanilla;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.EntityLlama;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,8 +15,8 @@ import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.util.IHorseStackGetter;
 
 @Mixin(EntityAnimal.class)
-public abstract class SyncStacks_EntityAnimal extends Entity {
-    public SyncStacks_EntityAnimal(World worldIn) {
+public abstract class DataParameterRegistration extends Entity {
+    public DataParameterRegistration(World worldIn) {
         super(worldIn);
     }
 
@@ -24,6 +26,9 @@ public abstract class SyncStacks_EntityAnimal extends Entity {
         this.dataManager.register(IHorseStackGetter.SADDLE_STACK, ItemStack.EMPTY);
         if(HorseshoesConfig.canShoeHorse((AbstractHorse) (Object) this))
             this.dataManager.register(IHorseStackGetter.HORSESHOE_STACK, ItemStack.EMPTY);
+        }
+        if(!((Entity) this instanceof EntityHorse)) {
+            this.dataManager.register(IHorseStackGetter.ARMOR_STACK, ItemStack.EMPTY);
         }
     }
 }

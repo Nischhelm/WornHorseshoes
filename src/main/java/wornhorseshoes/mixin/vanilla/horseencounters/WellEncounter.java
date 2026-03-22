@@ -16,7 +16,7 @@ import wornhorseshoes.config.folders.AcquisitionConfig;
 import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.handlers.RegistrationHandler;
 import wornhorseshoes.item.ItemHorseshoes;
-import wornhorseshoes.mixin.vanilla.horseshoeslot.AbstractHorseAccessor;
+import wornhorseshoes.mixin.vanilla.accessors.AbstractHorseAccessor;
 
 import java.util.List;
 import java.util.Random;

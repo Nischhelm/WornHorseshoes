@@ -14,7 +14,8 @@ public class PotionCoreEventHandlerMixin {
             method = "onLivingJump",
             at = @At("HEAD"),
             cancellable = true,
-            remap = false
+            remap = false,
+            require = 0
     )
     private static void whs_skipPotionCoreHandlerConditionally(LivingEvent.LivingJumpEvent event, CallbackInfo ci){
         if(((ISkipsPotionCoreHandler) event).whs$getSkipsPotionCore()) ci.cancel();

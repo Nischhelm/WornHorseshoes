@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import wornhorseshoes.client.model.ModelHorseSaddle;
-import wornhorseshoes.mixin.vanilla.renderenchantedlayers.saddle.RenderAccessor;
+import wornhorseshoes.mixin.vanilla.accessors.RenderAccessor;
 import wornhorseshoes.util.IHorseStackGetter;
 
 import javax.annotation.Nonnull;
