@@ -7,7 +7,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import wornhorseshoes.WornHorseshoes;
-import wornhorseshoes.config.folders.AcquisitionConfig;
+import wornhorseshoes.config.folders.EncounterConfig;
 import wornhorseshoes.config.folders.EnchantmentConfig;
 import wornhorseshoes.config.folders.HorseArmorConfig;
 import wornhorseshoes.config.folders.HorseshoesConfig;
@@ -19,7 +19,7 @@ public class ModConfigHandler {
 	public static EnchantmentConfig enchants = new EnchantmentConfig();
 
 	@Config.Name("Acquisition")
-	public static AcquisitionConfig acquisition = new AcquisitionConfig();
+	public static EncounterConfig encounters = new EncounterConfig();
 
 	@Config.Name("Horse Armor")
 	public static HorseArmorConfig horsearmor = new HorseArmorConfig();
@@ -44,12 +44,12 @@ public class ModConfigHandler {
 	}
 	public static void init(){
 		EnchantmentConfig.init();
-		AcquisitionConfig.init();
+		EncounterConfig.init();
 	}
 	public static void reset() {
 		HorseshoesConfig.reset();
 		EnchantmentConfig.reset();
-		AcquisitionConfig.reset();
+		EncounterConfig.reset();
 
 		preInit();
 		init();

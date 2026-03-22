@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(AbstractHorse.class)
-public interface AbstractHorseAccessor {
+public interface HorseInventoryAccessor {
     @Accessor("horseChest")
     ContainerHorseChest getHorseChest();
 }

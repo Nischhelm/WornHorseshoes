@@ -7,7 +7,7 @@
   "minVersion": "0.8",
   "mixins": [
     "vanilla.accessors.HorseArmorAccessor",
-    "vanilla.accessors.AbstractHorseAccessor"
+    "vanilla.accessors.HorseInventoryAccessor"
   ],
   "client": [
     "vanilla.accessors.RenderAccessor"

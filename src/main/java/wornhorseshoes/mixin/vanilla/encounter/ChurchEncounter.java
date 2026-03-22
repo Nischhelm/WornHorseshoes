@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wornhorseshoes.config.ModConfigHandler;
 import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.handlers.RegistrationHandler;
-import wornhorseshoes.mixin.vanilla.accessors.AbstractHorseAccessor;
+import wornhorseshoes.mixin.vanilla.accessors.HorseInventoryAccessor;
 
 import java.util.Random;
 
@@ -28,7 +28,7 @@ public abstract class ChurchEncounter extends StructureComponent {
         if(!HorseshoesConfig.canShoeHorse(EntityHorse.class)) return;
         if(this.whs$triedToSpawnHorse) return;
         this.whs$triedToSpawnHorse = true;
-        if(randomIn.nextFloat() >= ModConfigHandler.acquisition.wellEncounterChance / 100F) return;
+        if(randomIn.nextFloat() >= ModConfigHandler.encounters.wellEncounterChance / 100F) return;
 
         EntityHorse juan = new EntityHorse(worldIn);
         juan.setCustomNameTag("Juan");
@@ -46,7 +46,7 @@ public abstract class ChurchEncounter extends StructureComponent {
 
         ItemStack shoes = new ItemStack(RegistrationHandler.GOLD_HORSESHOE);
         EnchantmentHelper.addRandomEnchantment(randomIn, shoes, 20, false);
-        ((AbstractHorseAccessor) juan).getHorseChest().setInventorySlotContents(2, shoes);
+        ((HorseInventoryAccessor) juan).getHorseChest().setInventorySlotContents(2, shoes);
 
         worldIn.spawnEntity(juan);
     }

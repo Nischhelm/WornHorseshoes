@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @MixinConfig(name = WornHorseshoes.MODID)
-public class AcquisitionConfig {
+public class EncounterConfig {
     @Config.Comment("Global toggle for Horseshoe trade at Leatherworker Villager")
     @Config.Name("Leatherworker sells Horseshoes")
     public boolean leatherworkerSells = true;
@@ -46,12 +46,22 @@ public class AcquisitionConfig {
     @Config.Name("Well encounter blacklisted Horseshoes")
     public String[] wellEncounterBlacklist = {};
 
+    @Config.Comment("Chance for a zombie to spawn riding on a zombie horse")
+    @Config.Name("Zombie Rider Chance")
+    public float zombieRiderChance = 0.001F;
+
+    @Config.Comment("MixinToggle. This enables zombies to randomly spawn riding on zombie horses.")
+    @Config.Name("Zombie Rider Enabled")
+    @MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.encounter.zombierider.json", defaultValue = true)
+    @Config.RequiresMcRestart
+    public boolean zombieRiderEnabled = true;
+
     public static void init() {
-        for(String configLine : ModConfigHandler.acquisition.leatherworkerTradeEntries)
+        for(String configLine : ModConfigHandler.encounters.leatherworkerTradeEntries)
             new TradeEntry(configLine);
 
 
-        for(String s : ModConfigHandler.acquisition.wellEncounterBlacklist){
+        for(String s : ModConfigHandler.encounters.wellEncounterBlacklist){ //TODO: test if that actually always gets diamond shoes for whatever reason
             if(!s.contains(":")) wellEncounterBlacklistSet.add(WornHorseshoes.MODID+":"+s);
             else wellEncounterBlacklistSet.add(s);
         }

@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.item.ItemHorseArmor;
 import wornhorseshoes.item.ItemHorseshoes;
-import wornhorseshoes.mixin.vanilla.accessors.AbstractHorseAccessor;
+import wornhorseshoes.mixin.vanilla.accessors.HorseInventoryAccessor;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public abstract class DispenseHorseshoes {
                 AbstractHorse horse = list.stream().filter(HorseshoesConfig::canShoeHorse).findFirst().orElse(null);
                 if(horse == null) return;
                 ItemStack equipStack = stack.splitStack(1);
-                ContainerHorseChest horseChest = ((AbstractHorseAccessor) horse).getHorseChest();
+                ContainerHorseChest horseChest = ((HorseInventoryAccessor) horse).getHorseChest();
                 horseChest.setInventorySlotContents(2, equipStack);
 
                 cir.setReturnValue(stack);
@@ -49,7 +49,7 @@ public abstract class DispenseHorseshoes {
                 EntityHorse horse = (EntityHorse) list.stream().filter(h -> h instanceof EntityHorse).findFirst().orElse(null);
                 if(horse == null) return;
                 ItemStack equipStack = stack.splitStack(1);
-                ContainerHorseChest horseChest = ((AbstractHorseAccessor) horse).getHorseChest();
+                ContainerHorseChest horseChest = ((HorseInventoryAccessor) horse).getHorseChest();
                 horseChest.setInventorySlotContents(1, equipStack);
                 horse.setHorseArmorStack(equipStack);
 

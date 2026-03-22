@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import wornhorseshoes.config.folders.HorseshoesConfig;
+import wornhorseshoes.util.ICanDespawn;
 import wornhorseshoes.util.IHorseStackGetter;
 
 import javax.annotation.Nullable;
@@ -75,5 +77,19 @@ public abstract class SyncStacks extends Entity implements IHorseStackGetter {
             String loc = armorStack.getItem().getHorseArmorTexture(thisHorse, armorStack);
             whs$setArmorTexture(loc == null ? null : new ResourceLocation(loc));
         }
+    }
+
+    @Inject(method = "writeEntityToNBT", at = @At("TAIL"))
+    private void whs_writeCanDespawn(NBTTagCompound compound, CallbackInfo ci){
+        if(!(this instanceof ICanDespawn)) return;
+        if(!((ICanDespawn) this).whs$getCanDespawn()) return;
+        compound.setBoolean("WHS_CanDespawn", true);
+    }
+
+    @Inject(method = "readEntityFromNBT", at = @At("TAIL"))
+    private void whs_readCanDespawn(NBTTagCompound compound, CallbackInfo ci) {
+        if (!(this instanceof ICanDespawn)) return;
+        if (!compound.hasKey("WHS_CanDespawn")) return;
+        ((ICanDespawn) this).whs$setCanDespawn(compound.getBoolean("WHS_CanDespawn"));
     }
 }

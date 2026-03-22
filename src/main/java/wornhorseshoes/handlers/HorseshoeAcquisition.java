@@ -11,12 +11,12 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
 import wornhorseshoes.WornHorseshoes;
 import wornhorseshoes.config.ModConfigHandler;
-import wornhorseshoes.config.folders.AcquisitionConfig;
+import wornhorseshoes.config.folders.EncounterConfig;
 
 public class HorseshoeAcquisition {
     public static void addHorseshoeTrade() {
-        if(!ModConfigHandler.acquisition.leatherworkerSells) return;
-        if(AcquisitionConfig.leatherWorkerTrades.isEmpty()) return;
+        if(!ModConfigHandler.encounters.leatherworkerSells) return;
+        if(EncounterConfig.leatherWorkerTrades.isEmpty()) return;
 
         VillagerRegistry.VillagerProfession butcherProfession = ForgeRegistries.VILLAGER_PROFESSIONS.getValue(new ResourceLocation("minecraft:butcher"));
         if (butcherProfession == null){
@@ -26,7 +26,7 @@ public class HorseshoeAcquisition {
         VillagerRegistry.VillagerCareer leatherWorkerCareer = butcherProfession.getCareer(1);
 
         leatherWorkerCareer.addTrade(3, (merchant, recipeList, random) -> {
-            AcquisitionConfig.TradeEntry entry = WeightedRandom.getRandomItem(random, AcquisitionConfig.leatherWorkerTrades);
+            EncounterConfig.TradeEntry entry = WeightedRandom.getRandomItem(random, EncounterConfig.leatherWorkerTrades);
 
             ItemStack emeralds = new ItemStack(Items.EMERALD, MathHelper.getInt(random, entry.minPrice, entry.maxPrice), 0);
             ItemStack horseshoes = new ItemStack(entry.item);

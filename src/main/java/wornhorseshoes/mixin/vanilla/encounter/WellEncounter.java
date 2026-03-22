@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wornhorseshoes.config.ModConfigHandler;
-import wornhorseshoes.config.folders.AcquisitionConfig;
+import wornhorseshoes.config.folders.EncounterConfig;
 import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.handlers.RegistrationHandler;
 import wornhorseshoes.item.ItemHorseshoes;
-import wornhorseshoes.mixin.vanilla.accessors.AbstractHorseAccessor;
+import wornhorseshoes.mixin.vanilla.accessors.HorseInventoryAccessor;
 
 import java.util.List;
 import java.util.Random;
@@ -31,16 +31,16 @@ public abstract class WellEncounter extends StructureComponent {
         if(!HorseshoesConfig.canShoeHorse(EntityHorse.class)) return;
         if(this.whs$triedToSpawnHorse) return;
         this.whs$triedToSpawnHorse = true;
-        if(randomIn.nextFloat() >= ModConfigHandler.acquisition.wellEncounterChance) return;
+        if(randomIn.nextFloat() >= ModConfigHandler.encounters.wellEncounterChance) return;
 
         EntityHorse horse = new EntityHorse(worldIn);
         horse.setLocationAndAngles(this.getXWithOffset(3, 0) + 0.5D, this.getYWithOffset(12), this.getZWithOffset(3, 0), 0.0F, 0.0F);
 
         List<ItemHorseshoes> shoes = RegistrationHandler.registeredHorseshoes.stream()
-                .filter(item -> item.getRegistryName() != null && !AcquisitionConfig.wellEncounterBlacklistSet.contains(item.getRegistryName().toString()))
+                .filter(item -> item.getRegistryName() != null && !EncounterConfig.wellEncounterBlacklistSet.contains(item.getRegistryName().toString()))
                 .collect(Collectors.toList());
 
-        ((AbstractHorseAccessor) horse).getHorseChest().setInventorySlotContents(2, new ItemStack(shoes.get(randomIn.nextInt(shoes.size()))));
+        ((HorseInventoryAccessor) horse).getHorseChest().setInventorySlotContents(2, new ItemStack(shoes.get(randomIn.nextInt(shoes.size()))));
 
         worldIn.spawnEntity(horse);
     }
