@@ -9,5 +9,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(EntityHorse.class)
 public interface HorseArmorAccessor {
     @Accessor(value = "HORSE_ARMOR_STACK", remap = false)
-    DataParameter<ItemStack> getArmorStack();
+    static DataParameter<ItemStack> getArmorStack() {
+        throw new AssertionError("Unable to access EntityHorse.HORSE_ARMOR_STACK");
+    }
 }

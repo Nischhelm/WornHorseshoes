@@ -22,6 +22,7 @@ minecraft {
             jvmArg "-Dfml.coreMods.load=${mixin_loader_class}"
             jvmArg "-Dmixin.hotSwap=true"
             jvmArg "-Dmixin.checks.interfaces=true"
+            jvmArg "-Dmixin.debug.export=true"
 
             workingDirectory project.file('run')
 
@@ -34,6 +35,7 @@ minecraft {
             jvmArg "-Dfml.coreMods.load=${mixin_loader_class}"
             jvmArg "-Dmixin.hotSwap=true"
             jvmArg "-Dmixin.checks.interfaces=true"
+            jvmArg "-Dmixin.debug.export=true"
 
             workingDirectory project.file('run')
 
@@ -62,13 +64,10 @@ dependencies {
 
     //Just for testing:
     implementation fg.deobf("curse.maven:so-many-enchantments-267035:6754859")
-    //implementation fg.deobf("curse.maven:grappling-hook-mod-238911:3711089")
+    implementation fg.deobf("curse.maven:grappling-hook-mod-238911:3711089")
     implementation fg.deobf("curse.maven:better-survival-mod-260360:5729552")
     implementation fg.deobf("curse.maven:reach-fix-556777:6327271")
-
-    implementation fg.deobf("CraftTweaker2:CraftTweaker2-${crafttweaker_version}")
-    implementation fg.deobf("CraftTweaker2:ZenScript:${zs_version}")
-    implementation fg.deobf("CraftTweaker2:CraftTweaker2-API:${zs_version}")
+    compileOnly fg.deobf("curse.maven:potioncore-242872:2905184")
 }
 
 mixin {

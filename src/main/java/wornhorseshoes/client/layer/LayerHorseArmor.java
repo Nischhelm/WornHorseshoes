@@ -24,7 +24,7 @@ public class LayerHorseArmor implements LayerRenderer<EntityHorse> {
 
     @Override
     public void doRenderLayer(EntityHorse horse, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        ItemStack horseArmor = horse.getDataManager().get(((HorseArmorAccessor) horse).getArmorStack());
+        ItemStack horseArmor = horse.getDataManager().get(HorseArmorAccessor.getArmorStack());
         if (!horseArmor.isEmpty()) {
             this.horseRenderer.bindTexture(getTextureFromStack(horseArmor, horse));
             this.horseArmorModel.setModelAttributes(this.horseRenderer.getMainModel());
