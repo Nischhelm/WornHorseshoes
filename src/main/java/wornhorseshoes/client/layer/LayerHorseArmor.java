@@ -4,29 +4,28 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import wornhorseshoes.client.model.ModelHorseArmor;
-import wornhorseshoes.mixin.vanilla.renderenchantedlayers.armor.HorseArmorAccessor;
+import wornhorseshoes.util.IHorseStackGetter;
 
 @SideOnly(Side.CLIENT)
-public class LayerHorseArmor implements LayerRenderer<EntityHorse> {
-    private final RenderLiving<EntityHorse> horseRenderer;
+public class LayerHorseArmor <T extends AbstractHorse> implements LayerRenderer<T> {
+    private final RenderLiving<T> horseRenderer;
     private final ModelHorseArmor horseArmorModel;
 
-    public LayerHorseArmor(RenderLiving<EntityHorse> rendererIn) {
+    public LayerHorseArmor(RenderLiving<T> rendererIn) {
         this.horseRenderer = rendererIn;
         this.horseArmorModel = new ModelHorseArmor(0.1F);
     }
 
     @Override
-    public void doRenderLayer(EntityHorse horse, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        ItemStack horseArmor = horse.getDataManager().get(HorseArmorAccessor.getArmorStack());
+    public void doRenderLayer(AbstractHorse horse, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        ItemStack horseArmor = IHorseStackGetter.getArmorStack(horse);
         if (!horseArmor.isEmpty()) {
-            this.horseRenderer.bindTexture(getTextureFromStack(horseArmor, horse));
+            this.horseRenderer.bindTexture(((IHorseStackGetter)horse).whs$getArmorTexture());
             this.horseArmorModel.setModelAttributes(this.horseRenderer.getMainModel());
             this.horseArmorModel.setLivingAnimations(horse, limbSwing, limbSwingAmount, partialTicks);
             GlStateManager.color(1, 1, 1, 1);
@@ -34,11 +33,6 @@ public class LayerHorseArmor implements LayerRenderer<EntityHorse> {
             if(horseArmor.isItemEnchanted())
                 LayerArmorBase.renderEnchantedGlint(this.horseRenderer, horse, this.horseArmorModel, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
         }
-    }
-
-    //TODO: cache the ResourceLocation instead of creating it fresh every tick
-    private static ResourceLocation getTextureFromStack(ItemStack stack, EntityHorse horse) {
-        return new ResourceLocation(stack.getItem().getHorseArmorTexture(horse, stack));
     }
 
     @Override

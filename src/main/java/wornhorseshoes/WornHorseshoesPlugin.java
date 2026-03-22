@@ -14,6 +14,7 @@ public class WornHorseshoesPlugin implements IFMLLoadingPlugin {
 		MixinBootstrap.init();
 
 		FermiumRegistryAPI.enqueueMixin(false, "mixins.wornhorseshoes.vanilla.json");
+		FermiumRegistryAPI.enqueueMixin(false, "mixins.wornhorseshoes.vanilla.zombieskeletonhorsearmor.json");
 		FermiumRegistryAPI.enqueueMixin(false, "mixins.wornhorseshoes.vanilla.horseshoesslot.json");
 
 		FermiumRegistryAPI.enqueueMixin(false, "mixins.wornhorseshoes.vanilla.enchantablesaddle.json"); //TODO: WIP, no enchants added yet
