@@ -21,6 +21,7 @@ public class WornHorseshoesPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(false, "mixins.wornhorseshoes.vanilla.wellencounter.json"); //TODO: early config reader mixin disable
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.wornhorseshoes.bblsohmy.json", () -> Loader.isModLoaded("bblsom"));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.wornhorseshoes.grapplemod.json", () -> Loader.isModLoaded("grapplemod"));
 	}
 
 	@Override
