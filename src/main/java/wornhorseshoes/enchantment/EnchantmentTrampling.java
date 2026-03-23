@@ -85,11 +85,11 @@ public class EnchantmentTrampling extends Enchantment {
 
     @Override
     public boolean canApply(ItemStack stack) {
-        return stack.getItem() instanceof ItemHorseshoes;
+        return ItemHorseshoes.isHorseshoe(stack.getItem());
     }
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        return stack.getItem() instanceof ItemHorseshoes;
+        return ItemHorseshoes.isHorseshoe(stack.getItem());
     }
 }

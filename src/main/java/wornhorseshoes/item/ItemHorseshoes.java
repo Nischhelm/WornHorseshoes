@@ -19,6 +19,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import wornhorseshoes.WornHorseshoes;
+import wornhorseshoes.compat.BountifulBaublesCompat;
+import wornhorseshoes.compat.CompatUtil;
 import wornhorseshoes.config.ModConfigHandler;
 import wornhorseshoes.config.folders.EnchantmentConfig;
 import wornhorseshoes.config.folders.HorseshoesConfig;
@@ -99,7 +101,9 @@ public class ItemHorseshoes extends ItemArmor {
 
     public static ResourceLocation getHorseshoesTexture(EntityLiving wearer, ItemStack stack) {
         Item item = stack.getItem();
-        if(!(item instanceof ItemHorseshoes))
+        if(CompatUtil.bountifulbaubles.isLoaded() && BountifulBaublesCompat.isLuckyHorseshoe(item))
+            return BountifulBaublesCompat.getLuckyHorseshoeTexture();
+        else if(!(item instanceof ItemHorseshoes))
             return new ResourceLocation("");
         return ((ItemHorseshoes) item).textureLocation;
     }
@@ -117,5 +121,10 @@ public class ItemHorseshoes extends ItemArmor {
         if(EnchantmentConfig.horseshoesBlacklistSet.contains(enchantment)) return false;
 
         return super.canApplyAtEnchantingTable(stack, enchantment);
+    }
+
+    public static boolean isHorseshoe(Item item) {
+        if(CompatUtil.bountifulbaubles.isLoaded() && BountifulBaublesCompat.isLuckyHorseshoe(item)) return true;
+        return item instanceof ItemHorseshoes;
     }
 }

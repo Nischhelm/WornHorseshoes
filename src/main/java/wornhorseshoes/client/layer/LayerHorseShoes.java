@@ -36,7 +36,7 @@ public class LayerHorseShoes implements LayerRenderer<AbstractHorse> {
         if(!HorseshoesConfig.canShoeHorse(horse)) return;
 
         ItemStack horseshoes = ((IHorseStackGetter) horse).whs$getHorseshoesStack();
-        if (horseshoes.getItem() instanceof ItemHorseshoes) {
+        if (ItemHorseshoes.isHorseshoe(horseshoes.getItem())) {
             this.horseRenderer.bindTexture(ItemHorseshoes.getHorseshoesTexture(horse, horseshoes));
             this.horseShoesModel.setModelAttributes(this.horseRenderer.getMainModel());
             this.horseShoesModel.setLivingAnimations(horse, limbSwing, limbSwingAmount, partialTicks);

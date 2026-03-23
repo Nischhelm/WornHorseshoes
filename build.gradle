@@ -61,13 +61,15 @@ dependencies {
 
     implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
     implementation fg.deobf("curse.maven:bblsohmy-1144909:6178990")
+    implementation fg.deobf("curse.maven:bountifulbaubles-313536:3568240")
 
     //Just for testing:
     implementation fg.deobf("curse.maven:so-many-enchantments-267035:6754859")
     implementation fg.deobf("curse.maven:grappling-hook-mod-238911:3711089")
     implementation fg.deobf("curse.maven:better-survival-mod-260360:5729552")
     implementation fg.deobf("curse.maven:reach-fix-556777:6327271")
-    compileOnly fg.deobf("curse.maven:potioncore-242872:2905184")
+    implementation fg.deobf("curse.maven:potioncore-242872:2905184")
+    implementation fg.deobf("curse.maven:baubles-227083:2518667")
 }
 
 mixin {

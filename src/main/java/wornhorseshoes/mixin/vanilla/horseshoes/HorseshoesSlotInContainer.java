@@ -38,7 +38,7 @@ public abstract class HorseshoesSlotInContainer extends Container {
         if(HorseshoesConfig.canShoeHorse(horse)) {
             Slot slot = new Slot(horseInventoryIn, 2, 8, 54) {
                 public boolean isItemValid(@Nonnull ItemStack stack) {
-                    return stack.getItem() instanceof ItemHorseshoes;
+                    return ItemHorseshoes.isHorseshoe(stack.getItem());
                 }
 
                 public int getSlotStackLimit() {

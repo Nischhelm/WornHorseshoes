@@ -30,14 +30,14 @@ public abstract class DispenseHorseshoes {
     )
     private static void whs_dispenseHorseshoes(IBlockSource blockSource, ItemStack stack, CallbackInfoReturnable<ItemStack> cir){
         Item item = stack.getItem();
-        if(!(item instanceof ItemHorseshoes || item instanceof ItemHorseArmor)) return;
+        if(!(ItemHorseshoes.isHorseshoe(item) || item instanceof ItemHorseArmor)) return;
 
         BlockPos blockpos = blockSource.getBlockPos().offset(blockSource.getBlockState().getValue(BlockDispenser.FACING));
         List<AbstractHorse> list = blockSource.getWorld().getEntitiesWithinAABB(AbstractHorse.class, new AxisAlignedBB(blockpos));
 
         if (list.isEmpty()) cir.setReturnValue(ItemStack.EMPTY);
         else {
-            if (item instanceof ItemHorseshoes) {
+            if (ItemHorseshoes.isHorseshoe(item)) {
                 AbstractHorse horse = list.stream().filter(HorseshoesConfig::canShoeHorse).findFirst().orElse(null);
                 if(horse == null) return;
                 ItemStack equipStack = stack.splitStack(1);
