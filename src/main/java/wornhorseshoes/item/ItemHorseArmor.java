@@ -44,6 +44,7 @@ public class ItemHorseArmor extends ItemArmor {
         setRegistryName("minecraft", itemName);
         this.setTranslationKey(translationKey);
         this.setCreativeTab(CreativeTabs.MISC);
+        this.setMaxDamage(0);
     }
 
     //For modded horse armor

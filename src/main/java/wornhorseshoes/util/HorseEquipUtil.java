@@ -4,6 +4,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ContainerHorseChest;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
@@ -26,6 +27,8 @@ public class HorseEquipUtil {
             armor = setEnchantmentBasedOnDifficulty(armor, horse.getRNG(), localDifficulty);
             inventory.setInventorySlotContents(1, armor);
             IHorseStackGetter.setArmorStack(horse, armor);
+            horse.setDropChance(EntityEquipmentSlot.HEAD, 0); //drops differently
+            horse.setDropChance(EntityEquipmentSlot.CHEST, 0);
         }
 
         if (horse.getRNG().nextFloat() < ModConfigHandler.undead.maxEquipChance * localDifficulty) {
@@ -33,6 +36,7 @@ public class HorseEquipUtil {
             shoes = setEnchantmentBasedOnDifficulty(shoes, horse.getRNG(), localDifficulty);
             inventory.setInventorySlotContents(2, shoes);
             horse.getDataManager().set(IHorseStackGetter.HORSESHOE_STACK, shoes);
+            horse.setDropChance(EntityEquipmentSlot.FEET, 0); //drops differently
         }
     }
 

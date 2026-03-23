@@ -43,6 +43,7 @@ public class ItemHorseshoes extends ItemArmor {
         this.setTranslationKey(name);
         this.setCreativeTab(CreativeTabs.MISC);
         setTextureLocation(new ResourceLocation(WornHorseshoes.MODID, "textures/entity/horseshoes/"+name+".png"));
+        this.setMaxDamage(0);
     }
 
     public ItemHorseshoes setTextureLocation(ResourceLocation location){

@@ -1,6 +1,6 @@
 package wornhorseshoes.mixin.vanilla.enchantment;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 
 @Mixin(AbstractHorse.class)
-public abstract class HorseInventorySlots extends EntityLivingBase {
+public abstract class HorseInventorySlots extends EntityLiving {
     public HorseInventorySlots(World worldIn) {
         super(worldIn);
     }
@@ -24,6 +24,7 @@ public abstract class HorseInventorySlots extends EntityLivingBase {
     @Override
     @Nonnull
     public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn){
+        if(this.dead) return ItemStack.EMPTY;
         if(!this.world.isRemote) {
             switch (slotIn) {
                 case HEAD: case CHEST: //protects both
@@ -55,5 +56,10 @@ public abstract class HorseInventorySlots extends EntityLivingBase {
             ItemStack shoes = ((IHorseStackGetter) this).whs$getHorseshoesStack();
             return Arrays.asList(armor, armor, shoes);
         }
+    }
+
+    @Override
+    protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) {
+        //no op, don't drop from equipment slots (equipment is dropped by AbstractHorse.onDeath -> dropping horseChest contents)
     }
 }

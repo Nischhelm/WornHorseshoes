@@ -32,7 +32,6 @@ public abstract class ZombieHorseRider extends EntityMob {
         horse.setPositionAndRotation(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
         this.world.spawnEntity(horse);
 
-        //TODO: why does armor/shoes sometimes get dmgd on death? and why does it drop twice then?
         horse.setGrowingAge(this.isChild() ? -24000 : 0);
         horse.setHorseTamed(true);
         ((ICanDespawn)horse).whs$setCanDespawn(true);
