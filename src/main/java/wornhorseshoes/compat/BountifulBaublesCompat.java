@@ -1,6 +1,8 @@
 package wornhorseshoes.compat;
 
 import cursedflames.bountifulbaubles.item.ModItems;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
@@ -22,9 +24,13 @@ public class BountifulBaublesCompat {
 
     @SubscribeEvent
     public static void onLivingAttack(LivingAttackEvent event) {
+        //All passengers and super-passengers of an abstract horse wearing lucky horseshoes will not take fall dmg
         if(event.getSource() != DamageSource.FALL) return;
-        if(!(event.getEntityLiving() instanceof AbstractHorse)) return;
-        AbstractHorse horse = (AbstractHorse) event.getEntityLiving();
+        EntityLivingBase entity = event.getEntityLiving();
+        if(entity == null) return;
+        Entity lowestEntity = entity.getLowestRidingEntity();
+        if(!(lowestEntity instanceof AbstractHorse)) return;
+        AbstractHorse horse = (AbstractHorse) lowestEntity;
         if(isLuckyHorseshoe(((IHorseStackGetter) horse).whs$getHorseshoesStack().getItem()))
             event.setCanceled(true);
     }
