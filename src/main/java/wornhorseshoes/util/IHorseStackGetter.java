@@ -2,7 +2,6 @@ package wornhorseshoes.util;
 
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.entity.passive.EntityZombieHorse;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
