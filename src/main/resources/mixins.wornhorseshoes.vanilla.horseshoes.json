@@ -18,5 +18,8 @@
   },
   "client": [
     "vanilla.horseshoeslot.DrawHorseshoesSlotInGui"
-  ]
+  ],
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  }
 }

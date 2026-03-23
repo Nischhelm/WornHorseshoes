@@ -1,5 +1,10 @@
 package wornhorseshoes.mixin.vanilla.horseshoeslot;
 
+import com.llamalad7.mixinextras.expression.Definition;
+import com.llamalad7.mixinextras.expression.Expression;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Cancellable;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -11,13 +16,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wornhorseshoes.config.folders.HorseshoesConfig;
 import wornhorseshoes.item.ItemHorseshoes;
 
@@ -62,48 +67,35 @@ public abstract class HorseshoesSlotInContainer extends Container {
         return constant + (HorseshoesConfig.canShoeHorse(this.horse) ? 1 : 0);
     }
 
-    /**
-     * @author Nischhelm
-     * @reason todo: can be done via inject and shift the 2's to 3's
-     */
-    @Overwrite
-    @Nonnull
-    public ItemStack transferStackInSlot(@Nonnull EntityPlayer playerIn, int index) {
-        ItemStack stackCopy = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
+    @ModifyExpressionValue(
+            method = "transferStackInSlot",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/inventory/Slot;isItemValid(Lnet/minecraft/item/ItemStack;)Z", ordinal = 1)
+    )
+    private boolean whs_dontStackSaddles(boolean isValidSaddle){
+        return isValidSaddle && !this.getSlot(0).getHasStack();
+    }
 
-        if (slot == null || !slot.getHasStack()) return stackCopy;
-
-        ItemStack stackOrig = slot.getStack();
-        stackCopy = stackOrig.copy();
-
-        int horseInvSize = this.horseInventory.getSizeInventory(); //without horseshoe slot (after player inv)
-        int maxSize = this.inventorySlots.size(); //last slot before horseshoe slot
-
+    @Definition(id = "horseInventory", field = "Lnet/minecraft/inventory/ContainerHorseInventory;horseInventory:Lnet/minecraft/inventory/IInventory;")
+    @Definition(id = "getSizeInventory", method = "Lnet/minecraft/inventory/IInventory;getSizeInventory()I")
+    @Expression("this.horseInventory.getSizeInventory() <= 2")
+    @ModifyExpressionValue(method = "transferStackInSlot", at = @At("MIXINEXTRAS:EXPRESSION"))
+    private boolean whs_shiftClickToHorseshoeSlot(boolean original, @Local(name = "itemstack1") ItemStack stackOrig, @Cancellable CallbackInfoReturnable<ItemStack> cir){
+        //try to shift into horseshoe slot
         boolean hasHorseshoesSlot = HorseshoesConfig.canShoeHorse(this.horse);
-
-        //from horse to player
-        if (index < horseInvSize) {
-            if (!this.mergeItemStack(stackOrig, horseInvSize, maxSize, true)) return ItemStack.EMPTY;
+        if (hasHorseshoesSlot && this.getSlot(2).isItemValid(stackOrig) && !this.getSlot(2).getHasStack()) {
+            if (!this.mergeItemStack(stackOrig, 2, 3, false)) {
+                cir.setReturnValue(ItemStack.EMPTY);
+                return original;
+            }
         }
+        return this.horseInventory.getSizeInventory() <= 2 + (hasHorseshoesSlot ? 1 : 0);
+    }
 
-        //from player to horse
-
-        //to armor slot
-        else if (this.getSlot(1).isItemValid(stackOrig) && !this.getSlot(1).getHasStack()) {
-            if (!this.mergeItemStack(stackOrig, 1, 2, false)) return ItemStack.EMPTY;
-        //to saddle slot
-        } else if (this.getSlot(0).isItemValid(stackOrig) && !this.getSlot(0).getHasStack()) {
-            if (!this.mergeItemStack(stackOrig, 0, 1, false)) return ItemStack.EMPTY;
-        //to horseshoe slot
-        } else if (hasHorseshoesSlot && this.getSlot(2).isItemValid(stackOrig) && !this.getSlot(2).getHasStack()) {
-            if (!this.mergeItemStack(stackOrig, 2, 3, false)) return ItemStack.EMPTY;
-            //to chest
-        } else if (horseInvSize <= 2+(hasHorseshoesSlot?1:0) || !this.mergeItemStack(stackOrig, 2+(hasHorseshoesSlot?1:0), horseInvSize, false)) return ItemStack.EMPTY;
-
-        if (stackOrig.isEmpty()) slot.putStack(ItemStack.EMPTY);
-        else slot.onSlotChanged();
-
-        return stackCopy;
+    @ModifyConstant(
+            method = "transferStackInSlot",
+            constant = @Constant(intValue = 2, ordinal = 2)
+    )
+    private int whs_shiftMinIndex(int constant){
+        return constant + (HorseshoesConfig.canShoeHorse(this.horse) ? 1 : 0); //inventory needs to be shifted one to higher indices. max index is already shifted
     }
 }
