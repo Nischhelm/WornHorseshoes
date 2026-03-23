@@ -1,7 +1,8 @@
 package wornhorseshoes.client.model;
 
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelQuadruped;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -10,11 +11,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
-public class ModelHorseShoes_Llama extends ModelBase {
+public class ModelHorseShoes_Llama extends ModelQuadruped {
     //Copied and boiled down from ModelLlama
     public final ModelRenderer leg1,leg2,leg3,leg4;
 
     public ModelHorseShoes_Llama(float scale) {
+        super(15, scale);
         this.textureWidth = 128;
         this.textureHeight = 128;
 
@@ -37,13 +39,23 @@ public class ModelHorseShoes_Llama extends ModelBase {
 
     @Override
     public void render(@Nonnull Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        if (this.isChild) return;
         this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
 
-        this.leg1.render(scale);
-        this.leg2.render(scale);
-        this.leg3.render(scale);
-        this.leg4.render(scale);
+        if (this.isChild) {
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(0.45454544F, 0.41322312F, 0.45454544F);
+            GlStateManager.translate(0.0F, 33.0F * scale, 0.0F);
+            this.leg1.render(scale);
+            this.leg2.render(scale);
+            this.leg3.render(scale);
+            this.leg4.render(scale);
+            GlStateManager.popMatrix();
+        } else {
+            this.leg1.render(scale);
+            this.leg2.render(scale);
+            this.leg3.render(scale);
+            this.leg4.render(scale);
+        }
     }
 
     @Override

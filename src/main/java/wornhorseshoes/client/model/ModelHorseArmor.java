@@ -2,6 +2,7 @@ package wornhorseshoes.client.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.AbstractChestHorse;
@@ -20,6 +21,8 @@ public class ModelHorseArmor extends ModelBase {
     private final ModelRenderer lowerMouth;
     private final ModelRenderer horseLeftEar;
     private final ModelRenderer horseRightEar;
+    private final ModelRenderer muleLeftEar;
+    private final ModelRenderer muleRightEar;
     private final ModelRenderer neck;
     private final ModelRenderer mane;
     private final ModelRenderer body;
@@ -84,6 +87,18 @@ public class ModelHorseArmor extends ModelBase {
         this.horseRightEar.setRotationPoint(0.0F, 4.0F, -10.0F);
         this.horseRightEar.rotateAngleX = 0.5235988F;
 
+        this.muleLeftEar = new ModelRenderer(this, 0, 12);
+        this.muleLeftEar.addBox(-2.0F, -16.0F, 4.0F, 2, 7, 1, scaleFactor);
+        this.muleLeftEar.setRotationPoint(0.0F, 4.0F, -10.0F);
+        this.muleLeftEar.rotateAngleX = 0.5235988F;
+        this.muleLeftEar.rotateAngleZ = 0.2617994F;
+
+        this.muleRightEar = new ModelRenderer(this, 0, 12);
+        this.muleRightEar.addBox(0.0F, -16.0F, 4.0F, 2, 7, 1, scaleFactor);
+        this.muleRightEar.setRotationPoint(0.0F, 4.0F, -10.0F);
+        this.muleRightEar.rotateAngleX = 0.5235988F;
+        this.muleRightEar.rotateAngleZ = -0.2617994F;
+
         this.neck = new ModelRenderer(this, 0, 12);
         this.neck.addBox(-2.05F, -9.8F, -2.0F, 4, 14, 8, scaleFactor);
         this.neck.setRotationPoint(0.0F, 4.0F, -10.0F);
@@ -97,23 +112,57 @@ public class ModelHorseArmor extends ModelBase {
 
     @Override
     public void render(@Nonnull Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        AbstractHorse horse = (AbstractHorse)entity;
-        if(horse.isChild()) return;
+        AbstractHorse horse = (AbstractHorse) entity;
+        boolean isChild = horse.isChild();
+        boolean isChestHorse = horse instanceof AbstractChestHorse;
+        float size = horse.getHorseSize();
+        float invSize = 1 - size;
+
+        if (isChild) {
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(size, 0.5F * (1 + size), size);
+            GlStateManager.translate(0, 0.95F * invSize, 0);
+        }
 
         this.backLeftLeg.render(scale);
         this.backRightLeg.render(scale);
         this.frontLeftLeg.render(scale);
         this.frontRightLeg.render(scale);
 
+        if (isChild) {
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(size, size, size);
+            GlStateManager.translate(0, 1.35F * invSize, 0);
+        }
+
         this.body.render(scale);
         this.tailBase.render(scale);
         this.neck.render(scale);
         this.mane.render(scale);
 
-        this.horseLeftEar.render(scale);
-        this.horseRightEar.render(scale);
+        if (isChild) {
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            float f2 = 0.5F + size * size * 0.5F;
+            GlStateManager.scale(f2, f2, f2);
+
+            float grassEatingAmount = horse.getGrassEatingAmount(0);
+            if (grassEatingAmount <= 0) GlStateManager.translate(0, 1.35F * invSize, 0);
+            else GlStateManager.translate(0, (1.35F - 0.45F * grassEatingAmount) * invSize, 0.15F * invSize * grassEatingAmount);
+        }
+
+        if (isChestHorse) {
+            this.muleLeftEar.render(scale);
+            this.muleRightEar.render(scale);
+        } else {
+            this.horseLeftEar.render(scale);
+            this.horseRightEar.render(scale);
+        }
 
         this.head.render(scale);
+
+        if (isChild) GlStateManager.popMatrix();
     }
 
     private float updateHorseRotation(float prevAngle, float currAngle, float partialTick) {
@@ -151,7 +200,7 @@ public class ModelHorseArmor extends ModelBase {
         this.head.rotationPointY = 4.0F;
         this.head.rotationPointZ = -10.0F;
         this.tailBase.rotationPointY = 3.0F;
-        this.body.rotateAngleX = 0.0F;
+        this.body.rotateAngleX = 0;
         this.head.rotateAngleX = 0.5235988F + currPitchRadians;
         this.head.rotateAngleY = yawDiff * 0.017453292F;
         this.head.rotateAngleX = rearingAmount * (0.2617994F + currPitchRadians) + grassEatingAmount * 2.1816616F + maxHeadAngleChange * this.head.rotateAngleX;
@@ -162,27 +211,35 @@ public class ModelHorseArmor extends ModelBase {
         this.body.rotateAngleX = rearingAmount * -((float)Math.PI / 4F) + f7 * this.body.rotateAngleX;
         this.horseLeftEar.rotationPointY = this.head.rotationPointY;
         this.horseRightEar.rotationPointY = this.head.rotationPointY;
+        this.muleLeftEar.rotationPointY = this.head.rotationPointY;
+        this.muleRightEar.rotationPointY = this.head.rotationPointY;
         this.neck.rotationPointY = this.head.rotationPointY;
         this.upperMouth.rotationPointY = 0.02F;
-        this.lowerMouth.rotationPointY = 0.0F;
+        this.lowerMouth.rotationPointY = 0;
         this.mane.rotationPointY = this.head.rotationPointY;
         this.horseLeftEar.rotationPointZ = this.head.rotationPointZ;
         this.horseRightEar.rotationPointZ = this.head.rotationPointZ;
+        this.muleLeftEar.rotationPointZ = this.head.rotationPointZ;
+        this.muleRightEar.rotationPointZ = this.head.rotationPointZ;
         this.neck.rotationPointZ = this.head.rotationPointZ;
         this.upperMouth.rotationPointZ = 0.02F - mouthOpenness;
         this.lowerMouth.rotationPointZ = mouthOpenness;
         this.mane.rotationPointZ = this.head.rotationPointZ;
         this.horseLeftEar.rotateAngleX = this.head.rotateAngleX;
         this.horseRightEar.rotateAngleX = this.head.rotateAngleX;
+        this.muleLeftEar.rotateAngleX = this.head.rotateAngleX;
+        this.muleRightEar.rotateAngleX = this.head.rotateAngleX;
         this.neck.rotateAngleX = this.head.rotateAngleX;
         this.upperMouth.rotateAngleX = -0.09424778F * mouthOpenness;
         this.lowerMouth.rotateAngleX = 0.15707964F * mouthOpenness;
         this.mane.rotateAngleX = this.head.rotateAngleX;
         this.horseLeftEar.rotateAngleY = this.head.rotateAngleY;
         this.horseRightEar.rotateAngleY = this.head.rotateAngleY;
+        this.muleLeftEar.rotateAngleY = this.head.rotateAngleY;
+        this.muleRightEar.rotateAngleY = this.head.rotateAngleY;
         this.neck.rotateAngleY = this.head.rotateAngleY;
-        this.upperMouth.rotateAngleY = 0.0F;
-        this.lowerMouth.rotateAngleY = 0.0F;
+        this.upperMouth.rotateAngleY = 0;
+        this.lowerMouth.rotateAngleY = 0;
         this.mane.rotateAngleY = this.head.rotateAngleY;
         float f12 = 0.2617994F * rearingAmount;
         float f13 = MathHelper.cos(subTickCounter * 0.6F + (float)Math.PI);
@@ -197,13 +254,13 @@ public class ModelHorseArmor extends ModelBase {
         this.frontLeftLeg.rotateAngleX = f14;
         this.frontRightLeg.rotateAngleX = f15;
 
-        f12 = Math.min(-1.3089969F + limbSwingAmount * 1.5F, 0.0F);
+        f12 = Math.min(-1.3089969F + limbSwingAmount * 1.5F, 0);
 
         if (tailIsWagging) {
             this.tailBase.rotateAngleY = MathHelper.cos(subTickCounter * 0.7F);
-            f12 = 0.0F;
+            f12 = 0;
         }
-        else this.tailBase.rotateAngleY = 0.0F;
+        else this.tailBase.rotateAngleY = 0;
 
         this.tailBase.rotateAngleX = f12;
     }

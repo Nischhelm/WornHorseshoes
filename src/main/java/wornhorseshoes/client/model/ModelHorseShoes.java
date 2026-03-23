@@ -2,8 +2,10 @@ package wornhorseshoes.client.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.AbstractChestHorse;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -42,13 +44,22 @@ public class ModelHorseShoes extends ModelBase {
 
     @Override
     public void render(@Nonnull Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        AbstractHorse abstracthorse = (AbstractHorse)entity;
-        if(abstracthorse.isChild()) return;
+        AbstractHorse abstracthorse = (AbstractHorse) entity;
+        boolean isChild = abstracthorse.isChild();
+
+        if (isChild) {
+            float size = abstracthorse.getHorseSize();
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(size, 0.5F + size * 0.5F, size);
+            GlStateManager.translate(0, 0.95F * (1 - size), 0);
+        }
 
         this.backLeftHoof.render(scale);
         this.backRightHoof.render(scale);
         this.frontLeftHoof.render(scale);
         this.frontRightHoof.render(scale);
+
+        if (isChild) GlStateManager.popMatrix();
     }
 
     @Override
