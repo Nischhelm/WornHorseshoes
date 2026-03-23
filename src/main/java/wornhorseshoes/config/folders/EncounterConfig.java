@@ -51,7 +51,7 @@ public class EncounterConfig {
             new TradeEntry(configLine);
 
 
-        for(String s : ModConfigHandler.encounters.wellEncounterBlacklist){ //TODO: test if that actually always gets diamond shoes for whatever reason
+        for(String s : ModConfigHandler.encounters.wellEncounterBlacklist){
             if(!s.contains(":")) wellEncounterBlacklistSet.add(WornHorseshoes.MODID+":"+s);
             else wellEncounterBlacklistSet.add(s);
         }
