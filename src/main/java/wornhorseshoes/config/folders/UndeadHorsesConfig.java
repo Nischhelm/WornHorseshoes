@@ -46,4 +46,34 @@ public class UndeadHorsesConfig {
     @MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.encounter.armoredskeletonhorsetraps.json", defaultValue = true)
     @Config.RequiresMcRestart
     public boolean skeletonHorseTraps = true;
+
+    @Config.Comment({
+            "Max chance to equip an undead horse with shoes and/or armor on spawn.",
+            "Just like vanilla mob equipment chance this scales with the local difficulty.",
+            "So the max chance is only reached when the chunk was previously loaded for a long time."
+    })
+    @Config.Name("Max Equip Chance")
+    public float maxEquipChance = 0.15F;
+
+    @Config.Comment({
+            "Max chance to enchant equipment on undead horses.",
+            "Just like for vanilla mobs this scales with the local difficulty."
+    })
+    @Config.Name("Equip Enchant - Max Chance")
+    public float maxEquipEnchantChance = 0.5F;
+
+    @Config.Comment("Min Enchantment Level of enchanted equipment on undead horses.")
+    @Config.Name("Equip Enchant - Min Lvl")
+    public int minEnchLvl = 5;
+
+    @Config.Comment({
+            "Max Enchantment Level of enchanted equipment on undead horses.",
+            "Just like for vanilla mobs this scales with the local difficulty."
+    })
+    @Config.Name("Equip Enchant - Max Lvl")
+    public int maxEnchLvl = 23;
+
+    @Config.Comment("Enchanted equipment on undead horses allows treasure enchantments.")
+    @Config.Name("Equip Enchant - Allow Treasure")
+    public boolean allowTreasure = false;
 }

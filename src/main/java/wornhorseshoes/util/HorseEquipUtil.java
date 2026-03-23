@@ -7,6 +7,7 @@ import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
+import wornhorseshoes.config.ModConfigHandler;
 import wornhorseshoes.handlers.RegistrationHandler;
 import wornhorseshoes.mixin.vanilla.accessors.HorseInventoryAccessor;
 
@@ -20,14 +21,14 @@ public class HorseEquipUtil {
 
         ContainerHorseChest inventory = ((HorseInventoryAccessor) horse).getHorseChest();
 
-        if (true || horse.getRNG().nextFloat() < 0.15 * localDifficulty) {
+        if (horse.getRNG().nextFloat() < ModConfigHandler.undead.maxEquipChance * localDifficulty) {
             ItemStack armor = new ItemStack(getEquipmentByTier(true, tier));
             armor = setEnchantmentBasedOnDifficulty(armor, horse.getRNG(), localDifficulty);
             inventory.setInventorySlotContents(1, armor);
             IHorseStackGetter.setArmorStack(horse, armor);
         }
 
-        if (true || horse.getRNG().nextFloat() < 0.15 * localDifficulty) {
+        if (horse.getRNG().nextFloat() < ModConfigHandler.undead.maxEquipChance * localDifficulty) {
             ItemStack shoes = new ItemStack(getEquipmentByTier(false, tier));
             shoes = setEnchantmentBasedOnDifficulty(shoes, horse.getRNG(), localDifficulty);
             inventory.setInventorySlotContents(2, shoes);
@@ -54,9 +55,9 @@ public class HorseEquipUtil {
     }
 
     protected static ItemStack setEnchantmentBasedOnDifficulty(ItemStack stack, Random rand, float localDifficulty) {
-        if (!stack.isEmpty() && (true || rand.nextFloat() < 0.5F * localDifficulty)) {
-            int enchLvl = MathHelper.getInt(rand, 5, 5 + (int) (localDifficulty * 18));
-            return EnchantmentHelper.addRandomEnchantment(rand, stack, enchLvl, false);
+        if (!stack.isEmpty() && (rand.nextFloat() < ModConfigHandler.undead.maxEquipEnchantChance * localDifficulty)) {
+            int enchLvl = MathHelper.getInt(rand, ModConfigHandler.undead.minEnchLvl, ModConfigHandler.undead.minEnchLvl + (int) (localDifficulty * (ModConfigHandler.undead.maxEnchLvl - ModConfigHandler.undead.minEnchLvl)));
+            return EnchantmentHelper.addRandomEnchantment(rand, stack, enchLvl, ModConfigHandler.undead.allowTreasure);
         }
         return stack;
     }
