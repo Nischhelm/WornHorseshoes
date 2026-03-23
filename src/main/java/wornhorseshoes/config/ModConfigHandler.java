@@ -27,6 +27,13 @@ public class ModConfigHandler {
 	@Config.Name("Undead Horses")
 	public static UndeadHorsesConfig undead = new UndeadHorsesConfig();
 
+	@Config.Comment("MixinToggle. This makes the horses speed+jump height draw in horse GUI.")
+	@Config.Name("Draw Horse Stats")
+	@MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.horsestats.json", defaultValue = true)
+	@Config.RequiresMcRestart
+	public static boolean drawHorseStats = true;
+
+
 	@Mod.EventBusSubscriber(modid = WornHorseshoes.MODID)
 	private static class EventHandler{
 
