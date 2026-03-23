@@ -45,13 +45,7 @@ public class HorseArmorConfig {
     @Config.Name("All Horse Types use Armor")
     @MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.armor.zombieskeleton.json", defaultValue = true)
     @Config.RequiresMcRestart
-    public boolean zombieSkeletonHorseArmor = true;
-
-    @Config.Comment("MixinToggle. This allows Skeleton Horses created from Skeleton Horse Traps to wear horse armor and horseshoes randomly.")
-    @Config.Name("Armored Skeleton Horse Traps")
-    @MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.encounter.armoredskeletonhorsetraps.json", defaultValue = true)
-    @Config.RequiresMcRestart
-    public boolean skeletonHorseTraps = true;
+    public boolean allHorsesUseArmor = true;
 
     @Config.Comment({
             "MixinToggle. This disables the janky vanilla handling of Horse Armor rendering.",

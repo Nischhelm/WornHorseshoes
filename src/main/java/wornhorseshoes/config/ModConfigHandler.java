@@ -7,10 +7,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import wornhorseshoes.WornHorseshoes;
-import wornhorseshoes.config.folders.EncounterConfig;
-import wornhorseshoes.config.folders.EnchantmentConfig;
-import wornhorseshoes.config.folders.HorseArmorConfig;
-import wornhorseshoes.config.folders.HorseshoesConfig;
+import wornhorseshoes.config.folders.*;
 
 @Config(modid = WornHorseshoes.MODID)
 @MixinConfig(name = WornHorseshoes.MODID)
@@ -26,6 +23,9 @@ public class ModConfigHandler {
 
 	@Config.Name("Horseshoes")
 	public static HorseshoesConfig horseshoes = new HorseshoesConfig();
+
+	@Config.Name("Undead Horses")
+	public static UndeadHorsesConfig undead = new UndeadHorsesConfig();
 
 	@Mod.EventBusSubscriber(modid = WornHorseshoes.MODID)
 	private static class EventHandler{

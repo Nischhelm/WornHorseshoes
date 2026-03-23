@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.Unique;
 import wornhorseshoes.util.ICanDespawn;
 
 @Mixin({EntityZombieHorse.class, EntitySkeletonHorse.class})
-public abstract class ZombieSkeletonHorseDespawn extends EntityAnimal implements ICanDespawn {
-    public ZombieSkeletonHorseDespawn(World worldIn) {
+public abstract class HorseDespawn extends EntityAnimal implements ICanDespawn {
+    public HorseDespawn(World worldIn) {
         super(worldIn);
     }
 

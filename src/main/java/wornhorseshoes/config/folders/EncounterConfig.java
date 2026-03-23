@@ -46,16 +46,6 @@ public class EncounterConfig {
     @Config.Name("Well encounter blacklisted Horseshoes")
     public String[] wellEncounterBlacklist = {};
 
-    @Config.Comment("Chance for a zombie to spawn riding on a zombie horse")
-    @Config.Name("Zombie Rider Chance")
-    public float zombieRiderChance = 0.001F;
-
-    @Config.Comment("MixinToggle. This enables zombies to randomly spawn riding on zombie horses.")
-    @Config.Name("Zombie Rider Enabled")
-    @MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.encounter.zombierider.json", defaultValue = true)
-    @Config.RequiresMcRestart
-    public boolean zombieRiderEnabled = true;
-
     public static void init() {
         for(String configLine : ModConfigHandler.encounters.leatherworkerTradeEntries)
             new TradeEntry(configLine);

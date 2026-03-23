@@ -26,7 +26,7 @@ public abstract class ZombieHorseRider extends EntityMob {
 
     @Inject(method = "onInitialSpawn", at = @At("TAIL"))
     private void whs_spawnOnHorse(DifficultyInstance difficulty, IEntityLivingData livingdata, CallbackInfoReturnable<IEntityLivingData> cir){
-        if(this.getRNG().nextFloat() >= ModConfigHandler.encounters.zombieRiderChance) return;
+        if(this.getRNG().nextFloat() >= ModConfigHandler.undead.zombieRiderChance) return;
 
 
         EntityZombieHorse horse = new EntityZombieHorse(this.world);
