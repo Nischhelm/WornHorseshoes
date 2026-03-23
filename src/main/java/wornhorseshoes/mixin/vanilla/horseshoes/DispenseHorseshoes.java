@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.horseshoeslot;
+package wornhorseshoes.mixin.vanilla.horseshoes;
 
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.IBlockSource;

@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.horseshoeslot;
+package wornhorseshoes.mixin.vanilla.horseshoes;
 
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;

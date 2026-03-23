@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.horseshoeslot.renderlayer;
+package wornhorseshoes.mixin.vanilla.horseshoes.renderlayer;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;

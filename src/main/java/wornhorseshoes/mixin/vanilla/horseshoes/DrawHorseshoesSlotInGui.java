@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.horseshoeslot;
+package wornhorseshoes.mixin.vanilla.horseshoes;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiScreenHorseInventory;

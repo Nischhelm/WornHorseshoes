@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.horseshoeslot.increaseinvsize;
+package wornhorseshoes.mixin.vanilla.horseshoes.increaseinvsize;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.entity.passive.AbstractHorse;
