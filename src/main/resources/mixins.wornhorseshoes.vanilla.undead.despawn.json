@@ -6,7 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "vanilla.zombieskeletonhorses.HorseDespawn",
-    "vanilla.zombieskeletonhorses.ZombieRiderDespawn"
+    "vanilla.undeadhorses.HorseDespawn",
+    "vanilla.undeadhorses.ZombieRiderDespawn"
   ]
 }

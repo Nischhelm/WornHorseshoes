@@ -1,4 +1,4 @@
-package wornhorseshoes.mixin.vanilla.zombieskeletonhorses;
+package wornhorseshoes.mixin.vanilla.undeadhorses;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;

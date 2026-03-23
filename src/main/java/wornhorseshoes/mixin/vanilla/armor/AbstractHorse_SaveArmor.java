@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractHorse.class)
-public abstract class AbstractHorse_SaveZombieSkeletonArmor {
+public abstract class AbstractHorse_SaveArmor {
 
     @Shadow protected ContainerHorseChest horseChest;
     @Shadow public abstract boolean isArmor(ItemStack stack);
