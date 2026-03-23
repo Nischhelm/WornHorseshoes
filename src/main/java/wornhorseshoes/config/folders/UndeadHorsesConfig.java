@@ -8,7 +8,7 @@ import wornhorseshoes.WornHorseshoes;
 public class UndeadHorsesConfig {
     @Config.Comment("Chance for a zombie to spawn riding on a zombie horse.")
     @Config.Name("Zombie Rider Chance")
-    public float zombieRiderChance = 0.001F;
+    public float zombieRiderChance = 0.01F;
 
     @Config.Comment("MixinToggle. This enables zombies to randomly spawn riding on potentially armored zombie horses if they spawn on the surface.")
     @Config.Name("Zombie Rider Enabled")

@@ -17,30 +17,27 @@ import wornhorseshoes.util.ICanDespawn;
 
 @Mixin(EntityZombie.class)
 public abstract class ZombieHorseRider extends EntityMob {
-    @Shadow
-    public abstract boolean isChild();
-
     public ZombieHorseRider(World worldIn) {
         super(worldIn);
     }
 
+    @Shadow public abstract boolean isChild();
+
     @Inject(method = "onInitialSpawn", at = @At("TAIL"))
     private void whs_spawnOnHorse(DifficultyInstance difficulty, IEntityLivingData livingdata, CallbackInfoReturnable<IEntityLivingData> cir){
-        if(this.getRNG().nextFloat() >= ModConfigHandler.undead.zombieRiderChance) return;
-
+        if (this.getRNG().nextFloat() >= ModConfigHandler.undead.zombieRiderChance) return;
+        if (!this.world.canSeeSky(this.getPosition())) return;
 
         EntityZombieHorse horse = new EntityZombieHorse(this.world);
         horse.setPositionAndRotation(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
         this.world.spawnEntity(horse);
 
         //TODO: why does armor/shoes sometimes get dmgd on death? and why does it drop twice then?
-        horse.setGrowingAge(this.isChild() ? -24000 : 0); //TODO: test
+        horse.setGrowingAge(this.isChild() ? -24000 : 0);
         horse.setHorseTamed(true);
         ((ICanDespawn)horse).whs$setCanDespawn(true);
         HorseEquipUtil.equipHorse(horse, difficulty.getClampedAdditionalDifficulty());
 
         this.startRiding(horse);
     }
-
-    //TODO: make them burn in sunlight
 }
