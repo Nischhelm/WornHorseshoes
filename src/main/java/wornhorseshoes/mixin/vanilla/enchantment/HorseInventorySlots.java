@@ -47,7 +47,7 @@ public abstract class HorseInventorySlots extends EntityLiving {
     @Override
     @Nonnull
     //This allows protection / FF
-    public Iterable<ItemStack> getArmorInventoryList() { //TODO: this can probably be done less stupidly. idk man, horsechest would need to be removed or smth. or shadowed
+    public Iterable<ItemStack> getArmorInventoryList() {
         //Using horse armor twice since it protects both head + chest
         if(!this.world.isRemote)
             return Arrays.asList(this.horseChest.getStackInSlot(1), this.horseChest.getStackInSlot(1), this.horseChest.getStackInSlot(2));

@@ -33,6 +33,12 @@ public class ModConfigHandler {
 	@Config.RequiresMcRestart
 	public static boolean drawHorseStats = true;
 
+	@Config.Comment("MixinToggle. This makes horses stop rearing normally when players dismount. Without this fix they will keep rearing until they are mounted again.")
+	@Config.Name("Fix Rearing")
+	@MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.rearingfix.json", defaultValue = true)
+	@Config.RequiresMcRestart
+	public static boolean fixRearing = true;
+
 
 	@Mod.EventBusSubscriber(modid = WornHorseshoes.MODID)
 	private static class EventHandler{

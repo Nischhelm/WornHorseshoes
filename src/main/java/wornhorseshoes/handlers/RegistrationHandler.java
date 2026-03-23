@@ -51,18 +51,4 @@ public class RegistrationHandler {
     public static void registerItemModels(ModelRegistryEvent event) {
         registeredHorseshoes.forEach(ItemHorseshoes::registerModel);
     }
-
-    //TODO: finish up the rearing fix
-//    @SubscribeEvent
-//    public static void onInteractEntity(LivingEvent.LivingUpdateEvent event){
-//        if(!(event.getEntity() instanceof EntityHorse)) return;
-//        EntityHorse horse = (EntityHorse) event.getEntity();
-//
-//        if(event.getEntity().world.getTotalWorldTime() % 20 != 0) return;
-//
-//        if(!horse.isRearing()) return;
-//
-//        event.getEntity().world.playerEntities.forEach(p ->
-//                p.sendMessage(new TextComponentString("Horse with UUID " + horse.getUniqueID() + " and id " + horse.getEntityId() + " side " + (event.getEntity().world.isRemote ? "client" : "server") + " isRearing: "+ horse.isRearing())));
-//    }
 }

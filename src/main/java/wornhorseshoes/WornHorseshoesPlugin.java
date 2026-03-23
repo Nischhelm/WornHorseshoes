@@ -15,6 +15,7 @@ public class WornHorseshoesPlugin implements IFMLLoadingPlugin {
 
 		FermiumRegistryAPI.enqueueMixin(false, "mixins.wornhorseshoes.vanilla.json"); //sync stack is pretty much the backbone of everything, needs to always be enabled
 		FermiumRegistryAPI.enqueueMixin(false, "mixins.wornhorseshoes.vanilla.accessors.json");
+		FermiumRegistryAPI.enqueueMixin(false, "mixins.wornhorseshoes.vanilla.rearingfix.json");
 
 		FermiumRegistryAPI.enqueueMixin(false, "mixins.wornhorseshoes.vanilla.elytra.json"); //TODO: WIP, no handling yet
 
