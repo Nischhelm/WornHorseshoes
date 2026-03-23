@@ -68,8 +68,8 @@ public class HorseshoesConfig {
             }
             String itemName = split[0].trim();
             try {
-                Modifier speedMod = new Modifier(split[1]);
-                Modifier jumpMod = new Modifier(split[2]);
+                Modifier speedMod = new Modifier(split[1], 2);
+                Modifier jumpMod = new Modifier(split[2], 2);
                 itemStats.put(itemName, new Pair<>(speedMod, jumpMod));
             } catch (Exception e) {
                 WornHorseshoes.LOGGER.warn("WornHorseshoes unable to parse Horseshoes stats line {}, expected numbers in second and third entry", line);
@@ -87,14 +87,14 @@ public class HorseshoesConfig {
         public final double value;
         public final int operation;
 
-        public Modifier(String entry) {
+        public Modifier(String entry, int defaultOp) {
             if (entry.contains("@")) {
                 String[] split = entry.split("@");
                 this.value = Double.parseDouble(split[0].trim());
                 this.operation = Integer.parseInt(split[1].trim());
             } else {
                 this.value = Double.parseDouble(entry.trim());
-                this.operation = 2;
+                this.operation = defaultOp;
             }
         }
     }

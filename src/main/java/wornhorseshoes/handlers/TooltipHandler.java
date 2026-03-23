@@ -3,6 +3,7 @@ package wornhorseshoes.handlers;
 import net.minecraft.entity.passive.HorseArmorType;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -10,6 +11,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import wornhorseshoes.config.ModConfigHandler;
+import wornhorseshoes.config.folders.HorseArmorConfig;
 import wornhorseshoes.item.ItemHorseArmor;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
@@ -20,6 +22,9 @@ public class TooltipHandler {
         if(!ModConfigHandler.horsearmor.registerHorseArmorItem) return;
         if(!(event.getItemStack().getItem() instanceof ItemHorseArmor)) return;
         ItemHorseArmor horseArmor = (ItemHorseArmor) event.getItemStack().getItem();
+
+        ResourceLocation loc = horseArmor.getRegistryName();
+        if(loc != null && HorseArmorConfig.itemStats.containsKey(loc.toString())) return; //different handling if in stats config
 
         HorseArmorType type = horseArmor.getHorseArmorType(event.getItemStack());
         int armorAdd = type.getProtection();

@@ -8,6 +8,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import wornhorseshoes.config.folders.HorseArmorConfig;
@@ -16,8 +17,6 @@ import wornhorseshoes.util.IHorseStackGetter;
 
 @Mixin({EntityZombieHorse.class, EntitySkeletonHorse.class, AbstractChestHorse.class})
 public abstract class AllHorsesUseArmor extends AbstractHorse {
-    //TODO: zombies spawn on despawnable zombie horses
-
     public AllHorsesUseArmor(World worldIn) {
         super(worldIn);
     }
@@ -33,10 +32,14 @@ public abstract class AllHorsesUseArmor extends AbstractHorse {
 
         if (!this.world.isRemote) {
             this.getEntityAttribute(SharedMonsterAttributes.ARMOR).removeModifier(HorseArmorAccessor.getAmorModifierUUID());
-            int armorVal = horsearmortype.getProtection();
 
-            if (armorVal != 0)
-                this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier((new AttributeModifier(HorseArmorAccessor.getAmorModifierUUID(), "Horse armor bonus", armorVal, 0)).setSaved(false));
+            ResourceLocation loc = armorStack.getItem().getRegistryName();
+            if(loc == null || !HorseArmorConfig.itemStats.containsKey(loc.toString())) {
+                int armorVal = horsearmortype.getProtection();
+
+                if (armorVal != 0)
+                    this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier((new AttributeModifier(HorseArmorAccessor.getAmorModifierUUID(), "Horse armor bonus", armorVal, 0)).setSaved(false));
+            }
         }
     }
 

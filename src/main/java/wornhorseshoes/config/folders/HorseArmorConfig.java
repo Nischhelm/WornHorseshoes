@@ -7,6 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
 import wornhorseshoes.WornHorseshoes;
 import wornhorseshoes.config.ModConfigHandler;
+import wornhorseshoes.util.Pair;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,7 +16,18 @@ import java.util.Map;
 @MixinConfig(name = WornHorseshoes.MODID)
 public class HorseArmorConfig {
 
-    //TODO: stats
+    @Config.Comment({
+            "Stats per armor item. Pattern: itemName, armorMod, toughnessMod",
+            "By default uses operation0 (ADD), use @operationNumber (0/1/2) to change",
+            "Horse Armor that isn't mentioned here will use its vanilla handling instead",
+            "Requires MixinToggle \"Register Horse Armor Item\""
+    })
+    @Config.Name("Armor Stats")
+    public String[] itemStatsEntries = {
+            "iron_horse_armor, 5, 0",
+            "diamond_horse_armor, 11, 0",
+            "golden_horse_armor, 7, 0"
+    };
 
     @Config.Comment({
             "Add or remove mobs that are allowed to use horse armor.",
@@ -77,4 +89,29 @@ public class HorseArmorConfig {
             return loc != null && Arrays.asList(ModConfigHandler.horsearmor.armorHorses).contains(loc.toString());
         });
     }
+
+    public static void init() {
+        for (String line : ModConfigHandler.horsearmor.itemStatsEntries) {
+            String[] split = line.split(",");
+            if (split.length != 3) {
+                WornHorseshoes.LOGGER.warn("WornHorseshoes unable to parse Horse Armor stats line {}, expected three entries", line);
+                continue;
+            }
+            String itemName = split[0].trim();
+            if(!itemName.contains(":")) itemName = "minecraft:" + itemName;
+            try {
+                HorseshoesConfig.Modifier armorMod = new HorseshoesConfig.Modifier(split[1], 0);
+                HorseshoesConfig.Modifier toughnessMod = new HorseshoesConfig.Modifier(split[2], 0);
+                itemStats.put(itemName, new Pair<>(armorMod, toughnessMod));
+            } catch (Exception e) {
+                WornHorseshoes.LOGGER.warn("WornHorseshoes unable to parse Horse Armor stats line {}, expected numbers in second and third entry", line);
+            }
+        }
+    }
+    public static void reset(){
+        itemStats.clear();
+        canArmor.clear();
+    }
+
+    public static final Map<String, Pair<HorseshoesConfig.Modifier, HorseshoesConfig.Modifier>> itemStats = new HashMap<>();
 }

@@ -21,6 +21,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import wornhorseshoes.config.ModConfigHandler;
 import wornhorseshoes.config.folders.EnchantmentConfig;
+import wornhorseshoes.config.folders.HorseArmorConfig;
+import wornhorseshoes.config.folders.HorseshoesConfig;
+import wornhorseshoes.util.Pair;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -97,12 +100,13 @@ public class ItemHorseArmor extends ItemArmor {
     public Multimap<String, AttributeModifier> getItemAttributeModifiers(@Nonnull EntityEquipmentSlot equipmentSlot) {
         Multimap<String, AttributeModifier> multimap = HashMultimap.create();
 
-        if (equipmentSlot == this.armorType) {
-            //TODO: custom armor/toughness overrides via config? rn hardcoded for vanilla horse armor and/or via armor material
-            multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ARMOR_UUID, "Armor modifier", 0/*this.damageReduceAmount*/, 0));
-            multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(ARMOR_UUID, "Armor toughness", 0/*this.toughness*/, 0));
-        }
+        if(equipmentSlot != this.armorType) return multimap;
 
+        Pair<HorseshoesConfig.Modifier, HorseshoesConfig.Modifier> modifiers = HorseArmorConfig.itemStats.get(this.getRegistryName().toString());
+        if(modifiers != null) {
+            multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ARMOR_UUID, "Armor modifier", modifiers.getLeft().value, modifiers.getLeft().operation));
+            multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(ARMOR_UUID, "Armor toughness", modifiers.getRight().value, modifiers.getRight().operation));
+        }
         return multimap;
     }
 

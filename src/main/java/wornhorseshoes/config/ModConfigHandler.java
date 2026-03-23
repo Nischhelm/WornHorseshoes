@@ -45,11 +45,13 @@ public class ModConfigHandler {
 	public static void init(){
 		EnchantmentConfig.init();
 		EncounterConfig.init();
+		HorseArmorConfig.init();
 	}
 	public static void reset() {
 		HorseshoesConfig.reset();
 		EnchantmentConfig.reset();
 		EncounterConfig.reset();
+		HorseArmorConfig.reset();
 
 		preInit();
 		init();
