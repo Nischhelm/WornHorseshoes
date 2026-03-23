@@ -39,7 +39,11 @@ public class EnchantmentConfig {
             lateMixin = "mixins.wornhorseshoes.potioncore.json",
             defaultValue = true
     )
-    @MixinConfig.CompatHandling(modid = "potioncore", warnIngame = false, desired = true, disableMixin = false) //TODO: test if this crashes without pc
+    @MixinConfig.CompatHandling(
+            modid = "potioncore",
+            warnIngame = false, desired = true, disableMixin = false,
+            reason = "Optional additional compat, no issue if potioncore isn't present"
+    )
     @Config.RequiresMcRestart
     public boolean fireLivingJump = true;
 
