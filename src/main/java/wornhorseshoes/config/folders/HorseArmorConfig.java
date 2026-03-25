@@ -30,14 +30,13 @@ public class HorseArmorConfig {
     };
 
     @Config.Comment({
-            "Add or remove mobs that are allowed to use horse armor.",
+            "Add or remove additional mobs that are allowed to use horse armor.",
             "Note: This won't work for modded mobs that aren't inheriting AbstractHorse in their code, and will most probably not work fully for those that do.",
             "Note: This doesn't work for Llamas."
     })
     @Config.Name("Horses that can use Armor")
     @Config.RequiresMcRestart
     public String[] armorHorses = {
-            "minecraft:horse",
             "minecraft:donkey",
             "minecraft:mule",
             "minecraft:skeleton_horse",

@@ -7,6 +7,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ResourceLocation;
+import wornhorseshoes.config.folders.HorseArmorConfig;
 import wornhorseshoes.mixin.vanilla.accessors.HorseArmorAccessor;
 
 import javax.annotation.Nullable;
@@ -22,7 +23,7 @@ public interface IHorseStackGetter {
     DataParameter<ItemStack> HORSESHOE_STACK = EntityDataManager.createKey(AbstractHorse.class, DataSerializers.ITEM_STACK);
     DataParameter<ItemStack> ARMOR_STACK = EntityDataManager.createKey(AbstractHorse.class, DataSerializers.ITEM_STACK);
 
-    static void registerDataParameters(){} //this is just to trigger the static <clinit> block here at the correct time
+    static void createDataParameters(){} //this is just to trigger the static <clinit> block here at the correct time
 
     static DataParameter<ItemStack> getArmorParameter(AbstractHorse horse) {
         if(horse instanceof EntityHorse) return HorseArmorAccessor.getArmorStack();
@@ -31,11 +32,15 @@ public interface IHorseStackGetter {
 
     static ItemStack getArmorStack(AbstractHorse horse) {
         DataParameter<ItemStack> param = getArmorParameter(horse);
-        return param == null ? ItemStack.EMPTY : horse.getDataManager().get(param);
+        if(param == null) return ItemStack.EMPTY;
+        if(!(horse instanceof EntityHorse) && !HorseArmorConfig.canUseArmor(horse)) return ItemStack.EMPTY;
+        return horse.getDataManager().get(param);
     }
 
     static void setArmorStack(AbstractHorse horse, ItemStack stack) {
         DataParameter<ItemStack> param = getArmorParameter(horse);
-        if(param != null) horse.getDataManager().set(param, stack);
+        if(param == null) return;
+        if(!(horse instanceof EntityHorse) && !HorseArmorConfig.canUseArmor(horse)) return;
+        horse.getDataManager().set(param, stack);
     }
 }

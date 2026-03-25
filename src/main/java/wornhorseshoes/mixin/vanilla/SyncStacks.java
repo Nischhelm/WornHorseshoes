@@ -3,6 +3,7 @@ package wornhorseshoes.mixin.vanilla;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AbstractHorse;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,8 +29,18 @@ public abstract class SyncStacks extends Entity implements IHorseStackGetter {
         super(worldIn);
     }
 
-    static {
-        IHorseStackGetter.registerDataParameters();
+    @Inject(method = "<clinit>", at = @At("TAIL"))
+    private static void whs_createDataParameters(CallbackInfo ci) {
+        IHorseStackGetter.createDataParameters();
+    }
+
+    @Inject(method = "entityInit", at = @At(value = "TAIL"))
+    private void whs_registerSaddleDataParameter(CallbackInfo ci){
+        this.dataManager.register(IHorseStackGetter.SADDLE_STACK, ItemStack.EMPTY);
+        if(HorseshoesConfig.canShoeHorse((AbstractHorse) (Object) this))
+            this.dataManager.register(IHorseStackGetter.HORSESHOE_STACK, ItemStack.EMPTY);
+        if(!((Entity) this instanceof EntityHorse))
+            this.dataManager.register(IHorseStackGetter.ARMOR_STACK, ItemStack.EMPTY);
     }
 
     @ModifyExpressionValue(
@@ -50,7 +61,9 @@ public abstract class SyncStacks extends Entity implements IHorseStackGetter {
 
     @Override
     public ItemStack whs$getHorseshoesStack() {
-        return this.dataManager.get(IHorseStackGetter.HORSESHOE_STACK);
+        if(HorseshoesConfig.canShoeHorse((AbstractHorse) (Object) this))
+            return this.dataManager.get(IHorseStackGetter.HORSESHOE_STACK);
+        else return ItemStack.EMPTY;
     }
 
     @Unique @Nullable
