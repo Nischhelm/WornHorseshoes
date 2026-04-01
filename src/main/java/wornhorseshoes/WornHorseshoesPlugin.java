@@ -20,7 +20,7 @@ public class WornHorseshoesPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(false, "mixins.wornhorseshoes.vanilla.elytra.json"); //TODO: WIP, no handling yet
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.wornhorseshoes.bblsohmy.json", () -> Loader.isModLoaded("bblsom"));
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.wornhorseshoes.grapplemod.json", () -> Loader.isModLoaded("grapplemod"));
+//		FermiumRegistryAPI.enqueueMixin(true, "mixins.wornhorseshoes.grapplemod.json", () -> Loader.isModLoaded("grapplemod"));
 	}
 
 	@Override
