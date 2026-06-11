@@ -27,18 +27,8 @@ public class ModConfigHandler {
 	@Config.Name("Undead Horses")
 	public static UndeadHorsesConfig undead = new UndeadHorsesConfig();
 
-	@Config.Comment("MixinToggle. This makes the horses speed+jump height draw in horse GUI.")
-	@Config.Name("Draw Horse Stats")
-	@MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.horsestats.json", defaultValue = true)
-	@Config.RequiresMcRestart
-	public static boolean drawHorseStats = true;
-
-	@Config.Comment("MixinToggle. This draws the horses speed+jump height in the horses Neat HP bar.")
-	@Config.Name("Draw Horse Stats (Neat)")
-	@MixinConfig.MixinToggle(lateMixin = "mixins.wornhorseshoes.neat.json", defaultValue = true)
-	@MixinConfig.CompatHandling(modid = "neat", desired = true, warnIngame = false, reason = "Optional Compat with Neat mod")
-	@Config.RequiresMcRestart
-	public static boolean drawHorseStatsNeat = true;
+	@Config.Name("Horse Stats")
+	public static HorseStatConfig stats = new HorseStatConfig();
 
 	@Config.Comment("MixinToggle. This makes horses stop rearing normally when players dismount. Without this fix they will keep rearing until they are mounted again.")
 	@Config.Name("Fix Rearing")

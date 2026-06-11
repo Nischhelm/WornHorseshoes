@@ -1,8 +1,7 @@
-package wornhorseshoes.mixin.vanilla;
+package wornhorseshoes.mixin.vanilla.horsestats;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiScreenHorseInventory;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.inventory.Container;
 import org.spongepowered.asm.mixin.Final;
