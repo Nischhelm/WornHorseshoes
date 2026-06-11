@@ -33,6 +33,13 @@ public class ModConfigHandler {
 	@Config.RequiresMcRestart
 	public static boolean drawHorseStats = true;
 
+	@Config.Comment("MixinToggle. This draws the horses speed+jump height in the horses Neat HP bar.")
+	@Config.Name("Draw Horse Stats (Neat)")
+	@MixinConfig.MixinToggle(lateMixin = "mixins.wornhorseshoes.neat.json", defaultValue = true)
+	@MixinConfig.CompatHandling(modid = "neat", desired = true, warnIngame = false, reason = "Optional Compat with Neat mod")
+	@Config.RequiresMcRestart
+	public static boolean drawHorseStatsNeat = true;
+
 	@Config.Comment("MixinToggle. This makes horses stop rearing normally when players dismount. Without this fix they will keep rearing until they are mounted again.")
 	@Config.Name("Fix Rearing")
 	@MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.rearingfix.json", defaultValue = true)
