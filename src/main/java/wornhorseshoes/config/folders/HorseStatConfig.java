@@ -13,14 +13,14 @@ public class HorseStatConfig {
     @Config.Name("Draw Horse Stats")
     @MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.horsestats.json", defaultValue = true)
     @Config.RequiresMcRestart
-    public static boolean drawHorseStats = true;
+    public boolean drawHorseStats = true;
 
     @Config.Comment("MixinToggle. This draws the horses speed+jump height in the horses Neat HP bar.")
     @Config.Name("Draw Horse Stats (Neat)")
     @MixinConfig.MixinToggle(lateMixin = "mixins.wornhorseshoes.neat.json", defaultValue = true)
     @MixinConfig.CompatHandling(modid = "neat", desired = true, warnIngame = false, reason = "Optional Compat with Neat mod")
     @Config.RequiresMcRestart
-    public static boolean drawHorseStatsNeat = true;
+    public boolean drawHorseStatsNeat = true;
 
     @Config.Comment({
             "MixinToggle. Allows to modify both spawn and breeding stat (speed+jump height+maxhp) variation using the given configs here",
