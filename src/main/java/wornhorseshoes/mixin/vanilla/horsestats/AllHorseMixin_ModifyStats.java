@@ -23,7 +23,7 @@ public abstract class AllHorseMixin_ModifyStats extends AbstractHorse {
 
     @ModifyArg(
             method = "applyEntityAttributes",
-            at = @At(value = "INVOKE", target = "getEntityAttribute(Lnet/minecraft/entity/ai/attributes/IAttribute;)Lnet/minecraft/entity/ai/attributes/IAttributeInstance;")
+            at = @At(value = "INVOKE", target = "func_110148_a(Lnet/minecraft/entity/ai/attributes/IAttribute;)Lnet/minecraft/entity/ai/attributes/IAttributeInstance;")
     )
     private IAttribute whs_saveAttribute(IAttribute iattr, @Share("attr")LocalRef<String> attr){
         attr.set(iattr.getName());
