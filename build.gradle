@@ -4,6 +4,7 @@ plugins {
     id 'net.minecraftforge.gradle' version "${forge_gradle_version}"
     id 'org.spongepowered.mixin' version "${mixin_gradle_version}"
     id 'wtf.gofancy.fancygradle' version "${fancy_gradle_version}"
+    id 'me.modmuss50.mod-publish-plugin' version "${mod_publish_gradle_version}"
 }
 
 version = mod_version
@@ -59,13 +60,13 @@ dependencies {
     compileOnly "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
     annotationProcessor "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
 
-    implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
+    implementation fg.deobf("libs:FermiumBooter:${fermiumbooter_version}")
     implementation fg.deobf("curse.maven:bblsohmy-1144909:6178990")
     implementation fg.deobf("curse.maven:bountifulbaubles-313536:3568240")
 
     //Just for testing:
-    implementation fg.deobf("curse.maven:so-many-enchantments-267035:6754859")
-    implementation fg.deobf("curse.maven:grappling-hook-mod-238911:3711089")
+    implementation fg.deobf("curse.maven:so-many-enchantments-267035:3574478")
+    compileOnly fg.deobf("curse.maven:grappling-hook-mod-238911:3711089")
     implementation fg.deobf("curse.maven:better-survival-mod-260360:5729552")
     implementation fg.deobf("curse.maven:reach-fix-556777:6327271")
     implementation fg.deobf("curse.maven:potioncore-242872:2905184")
@@ -121,27 +122,53 @@ jar {
         attr['FMLCorePlugin']               = mixin_loader_class
         attr['FMLCorePluginContainsFMLMod'] = 'true'
         attr['TweakClass']                  = 'org.spongepowered.asm.launch.MixinTweaker'
-        attr['ForceLoadAsMod'] = "true"
 
         def currentTasks = gradle.startParameter.taskNames
-        if (currentTasks[0] == 'build' || currentTasks[0] == 'assemble')
+        if (currentTasks[0] != 'runClient' && currentTasks[0] != 'runServer')
             attr['ForceLoadAsMod'] = "true"
         attributes(attr)
     }
 }
 
-tasks.register("copyReobfJar", Copy) {
-    dependsOn("reobfJar")
+jar.finalizedBy('reobfJar')
 
-    from(layout.buildDirectory.file("reobfJar/output.jar"))
-    into(layout.projectDirectory.dir("run/mods"))
-    rename("output.jar", "${mod_name}-${mod_version}.jar")
-}
+publishMods {
+    file = jar.archiveFile
+    changelog = providers.environmentVariable("CHANGELOG").orElse("See GitHub releases for changelog")
+    version = mod_version
+    type = STABLE
+    modLoaders.add("forge")
 
-afterEvaluate {
-    tasks.matching { it.name.startsWith("reobfJar") }.configureEach {
-        finalizedBy("copyReobfJar")
+    if (project.findProperty("publish_to_github") == "true") {
+        github {
+            accessToken = providers.environmentVariable("GITHUB_TOKEN")
+            repository = providers.environmentVariable("GITHUB_REPOSITORY").orElse("owner/repo")
+            commitish = "main"
+        }
+    }
+
+    if (project.findProperty("curseforge_project_id")) {
+        curseforge {
+            accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+            projectId = project.findProperty("curseforge_project_id")
+            minecraftVersions.add(minecraft_version)
+            modLoaders.add("forge")
+
+            client = true
+            server = true
+
+            requires("fermiumbooter")
+        }
+    }
+
+    if (project.findProperty("modrinth_project_id")) {
+        modrinth {
+            accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+            projectId = project.findProperty("modrinth_project_id")
+            minecraftVersions.add(minecraft_version)
+            modLoaders.add("forge")
+
+            requires("fermiumbooter")
+        }
     }
 }
-
-jar.finalizedBy('reobfJar')
