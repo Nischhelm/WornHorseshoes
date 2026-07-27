@@ -98,4 +98,69 @@ public abstract class HorseshoesSlotInContainer extends Container {
     private int whs_shiftMinIndex(int constant){
         return constant + (HorseshoesConfig.canShoeHorse(this.horse) ? 1 : 0); //inventory needs to be shifted one to higher indices. max index is already shifted
     }
+
+
+    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = (Slot)this.inventorySlots.get(index);
+        if (slot != null && slot.getHasStack()) {
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
+            if (index < this.horseInventory.getSizeInventory()) {
+                if (!this.mergeItemStack(itemstack1, this.horseInventory.getSizeInventory(), this.inventorySlots.size(), true)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (this.getSlot(1).isItemValid(itemstack1) && !this.getSlot(1).getHasStack()) {
+                if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (this.modifyExpressionValue$zbi000$whs_dontStackSaddles(this.getSlot(0).isItemValid(itemstack1))) {
+                if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (this.horseInventory.getSizeInventory() <= 2 || !this.mergeItemStack(itemstack1, this.constant$zbi000$whs_shiftMinIndex(2), this.horseInventory.getSizeInventory(), false)) {
+                return ItemStack.EMPTY;
+            }
+
+            if (itemstack1.isEmpty()) {
+                slot.putStack(ItemStack.EMPTY);
+            } else {
+                slot.onSlotChanged();
+            }
+        }
+
+        return itemstack;
+    }
+
+    public ItemStack func_82846_b(EntityPlayer var1, int var2) {
+        ItemStack var3 = ItemStack.field_190927_a;
+        Slot var4 = (Slot)this.field_75151_b.get(var2);
+        if (var4 != null && var4.func_75216_d()) {
+            ItemStack var5 = var4.func_75211_c();
+            var3 = var5.func_77946_l();
+            if (var2 < this.field_111243_a.func_70302_i_()) {
+                if (!this.func_75135_a(var5, this.field_111243_a.func_70302_i_(), this.field_75151_b.size(), true)) {
+                    return ItemStack.field_190927_a;
+                }
+            } else if (this.func_75139_a(1).func_75214_a(var5) && !this.func_75139_a(1).func_75216_d()) {
+                if (!this.func_75135_a(var5, 1, 2, false)) {
+                    return ItemStack.field_190927_a;
+                }
+            } else if (this.modifyExpressionValue$bdf000$whs_dontStackSaddles(this.func_75139_a(0).func_75214_a(var5))) {
+                if (!this.func_75135_a(var5, 0, 1, false)) {
+                    return ItemStack.field_190927_a;
+                }
+            } else if (this.field_111243_a.func_70302_i_() <= 2 || !this.func_75135_a(var5, this.constant$bdf000$whs_shiftMinIndex(2), this.field_111243_a.func_70302_i_(), false)) {
+                return ItemStack.field_190927_a;
+            }
+
+            if (var5.func_190926_b()) {
+                var4.func_75215_d(ItemStack.field_190927_a);
+            } else {
+                var4.func_75218_e();
+            }
+        }
+
+        return var3;
+    }
 }
