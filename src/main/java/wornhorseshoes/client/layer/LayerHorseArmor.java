@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import wornhorseshoes.client.model.ModelHorseArmor;
@@ -24,8 +25,9 @@ public class LayerHorseArmor <T extends AbstractHorse> implements LayerRenderer<
     @Override
     public void doRenderLayer(AbstractHorse horse, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         ItemStack horseArmor = IHorseStackGetter.getArmorStack(horse);
-        if (!horseArmor.isEmpty()) {
-            this.horseRenderer.bindTexture(((IHorseStackGetter)horse).whs$getArmorTexture());
+        ResourceLocation loc = ((IHorseStackGetter)horse).whs$getArmorTexture();
+        if (!horseArmor.isEmpty() && loc != null) {
+            this.horseRenderer.bindTexture(loc);
             this.horseArmorModel.setModelAttributes(this.horseRenderer.getMainModel());
             this.horseArmorModel.setLivingAnimations(horse, limbSwing, limbSwingAmount, partialTicks);
             GlStateManager.color(1, 1, 1, 1);
