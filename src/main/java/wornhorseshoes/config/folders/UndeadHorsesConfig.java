@@ -13,6 +13,7 @@ public class UndeadHorsesConfig {
     @Config.Comment("MixinToggle. This enables zombies to randomly spawn riding on potentially armored zombie horses if they spawn on the surface.")
     @Config.Name("Zombie Rider Enabled")
     @MixinConfig.MixinToggle(earlyMixin = "mixins.wornhorseshoes.vanilla.encounter.zombierider.json", defaultValue = true)
+    @MixinConfig.CompatHandling(modid = "ooundeadexpansion", desired = false, reason = "Zombie Riders are incompatible with OOUndeadExpansion, disabling automatically.")
     @Config.RequiresMcRestart
     public boolean zombieRiderEnabled = true;
 
