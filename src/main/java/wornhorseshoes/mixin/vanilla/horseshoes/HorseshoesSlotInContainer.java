@@ -74,7 +74,7 @@ public abstract class HorseshoesSlotInContainer extends Container {
     }
 
     @ModifyExpressionValue(method = "transferStackInSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/inventory/IInventory;getSizeInventory()I", ordinal = 2))
-    private int whs_shiftClickToHorseshoeSlot(int original, @Local(name = "itemstack1") ItemStack stackOrig, @Cancellable CallbackInfoReturnable<ItemStack> cir){
+    private int whs_shiftClickToHorseshoeSlot(int original, @Local(ordinal = 1) ItemStack stackOrig, @Cancellable CallbackInfoReturnable<ItemStack> cir){
         //try to shift into horseshoe slot
         boolean hasHorseshoesSlot = HorseshoesConfig.canShoeHorse(this.horse);
         if (hasHorseshoesSlot && this.getSlot(2).isItemValid(stackOrig) && !this.getSlot(2).getHasStack()) {
