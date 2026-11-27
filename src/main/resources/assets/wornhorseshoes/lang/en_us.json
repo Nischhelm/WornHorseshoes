@@ -1,0 +1,8 @@
+{
+  "item.wornhorseshoes.horseshoes_iron": "Iron Horseshoes",
+  "item.wornhorseshoes.horseshoes_gold": "Gold Horseshoes",
+  "item.wornhorseshoes.horseshoes_diamond": "Diamond Horseshoes",
+  "enchantment.wornhorseshoes.trampling": "Trampling",
+  "enchantment.wornhorseshoes.trampling.desc": "Knocks mobs back and damages them when trampling over them",
+  "wornhorseshoes.tooltip.on_horse": "When on a horse:"
+}
