@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "wornhorseshoes:items/horseshoes_gold"
+    "layer0": "wornhorseshoes:item/horseshoes_gold"
   }
 }

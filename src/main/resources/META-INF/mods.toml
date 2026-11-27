@@ -1,0 +1,30 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+issueTrackerURL="https://github.com/Nischhelm/WornHorseshoes/issues"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="Worn Horseshoes"
+authors="${mod_authors}"
+credits="Original 1.12.2 mod by Nischhelm (MIT). Art (horseshoe items and textures) by Artsy. Forge 1.20.1 port by Flankrat."
+logoFile="poghorseshoe.gif"
+description='''
+Enchantable horseshoes, horse armor for every horse type and other horse improvements.
+Forge 1.20.1 port of Worn Horseshoes 1.1.2.3 for 1.12.2.
+'''
+
+[[dependencies.${mod_id}]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.21)"
+    ordering="NONE"
+    side="BOTH"

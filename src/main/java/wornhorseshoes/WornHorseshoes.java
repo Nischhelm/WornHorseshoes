@@ -1,42 +1,60 @@
 package wornhorseshoes;
 
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import wornhorseshoes.compat.BountifulBaublesCompat;
-import wornhorseshoes.compat.CompatUtil;
-import wornhorseshoes.config.ModConfigHandler;
-import wornhorseshoes.handlers.HorseshoeAcquisition;
-import wornhorseshoes.proxy.IProxy;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import wornhorseshoes.config.WHSConfig;
+import wornhorseshoes.handlers.HorseEvents;
+import wornhorseshoes.handlers.HorseshoeDispenseBehavior;
+import wornhorseshoes.handlers.LeatherworkerTrades;
+import wornhorseshoes.registry.ModRegistry;
 
-@Mod(
-        modid = WornHorseshoes.MODID,
-        version = WornHorseshoes.VERSION,
-        name = WornHorseshoes.NAME,
-        dependencies = "required-after:fermiumbooter@[1.3.0,);"
-)
+/**
+ * Worn Horseshoes: enchantable horseshoes, horse armor for more horse types and other horse improvements.
+ * Forge 1.20.1 port of Nischhelm's 1.12.2 mod (MIT).
+ */
+@Mod(WornHorseshoes.MODID)
 public class WornHorseshoes {
     public static final String MODID = "wornhorseshoes";
-    public static final String VERSION = "1.1.2.3";
-    public static final String NAME = "WornHorseshoes";
-    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LoggerFactory.getLogger("WornHorseshoes");
 
-    @SidedProxy(serverSide = "wornhorseshoes.proxy.ServerProxy", clientSide = "wornhorseshoes.proxy.ClientProxy")
-    public static IProxy proxy;
-
-	@Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        ModConfigHandler.preInit();
-        if(CompatUtil.bountifulbaubles.isLoaded()) MinecraftForge.EVENT_BUS.register(BountifulBaublesCompat.class);
+    public WornHorseshoes() {
+        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WHSConfig.SPEC);
+        ModRegistry.register(modBus);
+        modBus.addListener(this::onConfig);
+        modBus.addListener(this::onConfigReload);
+        modBus.addListener(this::onCommonSetup);
+        modBus.addListener(this::onCreativeTabs);
+        MinecraftForge.EVENT_BUS.register(HorseEvents.class);
+        MinecraftForge.EVENT_BUS.register(LeatherworkerTrades.class);
     }
 
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        ModConfigHandler.init();
-        HorseshoeAcquisition.addHorseshoeTrade();
+    private void onConfig(ModConfigEvent.Loading event) {
+        if (event.getConfig().getSpec() == WHSConfig.SPEC) WHSConfig.invalidate();   // caches rebuild on next use
+    }
+
+    private void onConfigReload(ModConfigEvent.Reloading event) {
+        if (event.getConfig().getSpec() == WHSConfig.SPEC) WHSConfig.invalidate();
+    }
+
+    private void onCommonSetup(FMLCommonSetupEvent event) {
+        // dispensers put horseshoes on the horse in front of them (vanilla already does this for horse armor)
+        event.enqueueWork(() -> ModRegistry.HORSESHOES.forEach(item ->
+                DispenserBlock.registerBehavior(item.get(), new HorseshoeDispenseBehavior())));
+    }
+
+    private void onCreativeTabs(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) ModRegistry.HORSESHOES.forEach(item -> event.accept(item.get()));
     }
 }

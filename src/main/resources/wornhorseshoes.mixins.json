@@ -1,0 +1,26 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "wornhorseshoes.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "wornhorseshoes.refmap.json",
+  "mixins": [
+    "AbstractHorseInvoker",
+    "AbstractHorseMixin",
+    "AnimalMixin",
+    "HorseArmorItemMixin",
+    "HorseInventoryMenuMixin",
+    "HorseInvoker",
+    "HorseMixin",
+    "SinglePoolElementMixin",
+    "SkeletonTrapGoalMixin",
+    "ZombieMixin"
+  ],
+  "client": [
+    "client.HorseInventoryScreenAccessor",
+    "client.NeatHorseStatsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
